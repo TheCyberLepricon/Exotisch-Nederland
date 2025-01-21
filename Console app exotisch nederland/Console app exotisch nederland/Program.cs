@@ -1,9 +1,11 @@
-﻿using Console_app_exotisch_nederland.Presentatie;
+﻿using Console_app_exotisch_nederland.Models;
+using Console_app_exotisch_nederland.Presentatie;
 using System.Net.Http;
 using System.Reflection.Metadata;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System;
 public class LocationResponse
 {
     public string ip { get; set; }
@@ -25,13 +27,16 @@ namespace Console_app_exotisch_nederland
     {
         static void Main(string[] args)
         {
+            
             DateTime currentDateTime = DateTime.Now;
             bool klaar = false;
             PresentatieProgram _presentatie = new PresentatieProgram();
             while(!klaar)
             {
-                Console.WriteLine("Kies een optie:\n\t1. Nieuwe Organisme toevoegen\n\t2. Alle organismen bekijken\n\t" +
-                    "3. Filteren op ...\n\t4. Afsluiten");
+                Organismes standaard = new Organismes("", "", "", "", "", "", "");
+                Console.WriteLine("Kies een optie:\n\t1. Nieuw Organisme toevoegen\n\t2. Alle organismen bekijken\n\t" +
+                    "3. Filteren op ...\n\t4. Afsluiten\n\n\tVoer een getal in!");
+                List<string> locatieData = new List<string>();
                 int keuze;
                 while(true)
                 {
@@ -47,41 +52,35 @@ namespace Console_app_exotisch_nederland
                 }
                 if (keuze == 1)
                 {
-                    void DatumKrijgen()
+                    static string Capitalize(string input)
                     {
-                        Console.WriteLine(currentDateTime);
-                        Console.ReadLine();
+                        if (string.IsNullOrEmpty(input))
+                            return input;
+
+                        return char.ToUpper(input[0]) + input.Substring(1).ToLower();
+                    }
+                    string DatumKrijgen()
+                    {
+                        DateTime now = DateTime.Now;
+                        string CorrecteData = now.ToString("yyyy-MM-dd-HH");
+                        return CorrecteData;
                     }
                     async void OrganismeLocatie()
                     {
                         using HttpClient client = new HttpClient();
+                        string url = "https://freegeoip.app/json/";
 
-                        try
-                        {
-                            string url = "https://freegeoip.app/json/";
+                        Console.WriteLine("Locatie opvragen...");
+                        string response = await client.GetStringAsync(url);
 
-                            Console.WriteLine("Locatie opvragen...");
-                            string response = await client.GetStringAsync(url);
+                        var locationData = JsonSerializer.Deserialize<LocationResponse>(response);
+                        locatieData.Add(locationData.latitude.ToString());
+                        locatieData.Add(locationData.longitude.ToString());
+                        locatieData.Add(locationData.city.ToString());
+                        locatieData.Add(locationData.region_name.ToString());
 
-                            var locationData = JsonSerializer.Deserialize<LocationResponse>(response);
 
-                            if (true)
-                            {
-                                Console.WriteLine($"Latitude: {locationData.latitude}");
-                                Console.WriteLine($"Longitude: {locationData.longitude}");
-                                Console.WriteLine($"Stad: {locationData.city}");
-                                Console.WriteLine($"Land: {locationData.country_name}");
 
-                            }
-                        }
-                        catch (HttpRequestException ex)
-                        {
-                            Console.WriteLine($"Netwerkfout: {ex.Message}");
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Onverwachte fout: {ex.Message}");
-                        }
                     }
                     Console.WriteLine("Is het een dier of plant?");
                     string dierOfPlant = Console.ReadLine();
@@ -127,8 +126,8 @@ namespace Console_app_exotisch_nederland
                         }
                         string PlantNaamVraag()
                         {
-                            Console.WriteLine("Wat is de naam van de plant?");
-                            Console.WriteLine("Vul de alledaagse term in of de wetenschappelijke term voor de plant.");
+                            Console.WriteLine("Wat is de naam van de soort?");
+                            Console.WriteLine("Vul de alledaagse term in of de wetenschappelijke term voor de soort.");
                             Console.WriteLine("Vul \"Onbekend\" als U geen idee heeft!");
                             string naamPlantKeuzeTemp = Console.ReadLine();
                             return naamPlantKeuzeTemp;
@@ -151,12 +150,18 @@ namespace Console_app_exotisch_nederland
                                 return PlantAfkomstVraag();
                             }
                         }
-
-                        PlantTypeVraag();
-                        PlantNaamVraag();
-                        PlantAfkomstVraag();
-                        DatumKrijgen();
+                        string PlantOorsprongVraag()
+                        {
+                            Console.WriteLine("Waar komt de plant vandaan?");
+                            Console.WriteLine("Vul een continent in (Europa, Afrika...)");
+                            string oorsprongPlant = Console.ReadLine();
+                            return oorsprongPlant;
+                        }
                         OrganismeLocatie();
+                        var plantje =new Organismes.Plant("Plant",PlantTypeVraag(), Capitalize(PlantOorsprongVraag()), Capitalize(PlantAfkomstVraag()),
+                            DatumKrijgen(), locatieData[0], locatieData[1] , Capitalize(PlantNaamVraag()));
+                        standaard.VoegPlantToe(plantje);
+
 
 
 
@@ -331,12 +336,30 @@ namespace Console_app_exotisch_nederland
                                 return DierAfkomstVraag();
                             }
                         }
-                        DierTypeVraag();
-                        DierNaamVraag();
-                        DierAfkomstVraag();
-                        DatumKrijgen();
+                        string DierOorsprongVraag()
+                        {
+                            Console.WriteLine("Waar komt het dier vandaan?");
+                            Console.WriteLine("Vul een continent in (Europa, Afrika...)");
+                            string oorsprongDier = Console.ReadLine();
+                            return oorsprongDier;
+                        }
+
                         OrganismeLocatie();
+                        var diertje = new Organismes.Plant("Plant", DierTypeVraag(), Capitalize(DierOorsprongVraag()), Capitalize(DierAfkomstVraag()),
+                            DatumKrijgen(), locatieData[0], locatieData[1], Capitalize(DierNaamVraag()));
+                        standaard.VoegPlantToe(diertje);
                     }
+                }
+                else if (keuze == 2)
+                {
+                    foreach (Organismes.Plant organisme in Organismes.Plant.plantenLijst)
+                    {
+                        organisme.Beschrijving();
+                    }
+                }
+                else if(keuze == 4)
+                {
+                    break;
                 }
             }
         }
