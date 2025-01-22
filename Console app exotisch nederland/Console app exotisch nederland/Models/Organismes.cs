@@ -61,7 +61,7 @@
             public override void Beschrijving()
             {
                 Console.WriteLine($"dierOfPlant = {DierOfPlant}\ntype = {Type}\noorsprong = {Oorsprong}\nafkomst = {Afkomst}\ndatumTijd =" +
-                    $" {DatumTijd}\nlatitude = {Latitude}\nlongitude = {Longitude}\nnaamPlant = {NaamDier}");
+                    $" {DatumTijd}\nlatitude = {Latitude}\nlongitude = {Longitude}\nnaamDier = {NaamDier}");
             }
         }
     }
