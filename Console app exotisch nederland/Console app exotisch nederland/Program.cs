@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.Marshalling;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System;
+using System.Security.Cryptography.X509Certificates;
 public class LocationResponse
 {
     public string ip { get; set; }
@@ -34,8 +35,8 @@ namespace Console_app_exotisch_nederland
             while(!klaar)
             {
                 Organismes standaard = new Organismes("", "", "", "", "", "", "");
-                Console.WriteLine("Kies een optie:\n\t1. Nieuw Organisme toevoegen\n\t2. Alle organismen bekijken\n\t" +
-                    "3. Filteren op ...\n\t4. Afsluiten\n\n\tVoer een getal in!");
+                Console.WriteLine("Kies een optie:\n\t1. Nieuw Organisme toevoegen\n\t2. Alle organismen (gefilterd) bekijken\n\t3. Afsluiten\n" +
+                    "\n\tVoer een getal in!");
                 List<string> locatieData = new List<string>();
                 int keuze;
                 while(true)
@@ -149,14 +150,58 @@ namespace Console_app_exotisch_nederland
                         standaard.VoegPlantToe(diertje);
                     }
                 }
+                
                 else if (keuze == 2)
                 {
+                    static double DegreesToRadians(double degrees)
+                    {
+                        return degrees * Math.PI / 180;
+                    }
+                    double CalculateDistance(decimal lat1decimal, decimal lat2decimal, decimal lon1decimal, decimal lon2decimal)
+                    {
+                        const double R = 6371;
+                        //R = straal van de aarde in km
+
+                        double lat1 = Convert.ToDouble(lat1decimal);
+                        double lat2 = Convert.ToDouble(lat2decimal);
+                        double lon1 = Convert.ToDouble(lon1decimal);
+                        double lon2 = Convert.ToDouble(lon2decimal);
+
+                        double lat1Rad = DegreesToRadians(lat1);
+                        double lat2Rad = DegreesToRadians(lat2);
+                        double lon1Rad = DegreesToRadians(lon1);
+                        double lon2Rad = DegreesToRadians(lon2);
+
+
+
+                        double deltaLat = lat2 - lat1;
+                        double deltaLon = lon2 - lon1;
+                        double a = Math.Sin(deltaLat / 2) * Math.Sin(deltaLat / 2) +
+                        Math.Cos(lat1) * Math.Cos(lat2) *
+                        Math.Sin(deltaLon / 2) * Math.Sin(deltaLon / 2);
+                        double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+                        double distance = R * c;
+                        return distance;
+                    }
+                    
                     foreach (Organismes.Plant organisme in Organismes.Plant.plantenLijst)
                     {
-                        organisme.Beschrijving();
+                        //52.091106, 5.122004
+                        double lat2temp = 52.091106;
+                        double lon2temp = 5.122004;
+                        if (CalculateDistance(Convert.ToDecimal(organisme.Latitude), Convert.ToDecimal(lat2temp), Convert.ToDecimal(organisme.Longitude) , Convert.ToDecimal(lon2temp)) > 5)
+                        {
+                            Console.WriteLine("Dit is te ver");
+                            Console.WriteLine(CalculateDistance(Convert.ToDecimal(organisme.Latitude), Convert.ToDecimal(lat2temp), Convert.ToDecimal(organisme.Longitude), Convert.ToDecimal(lon2temp)));
+                            organisme.Beschrijving();
+                        }
+                        else
+                        {
+                            organisme.Beschrijving();
+                        }
                     }
                 }
-                else if(keuze == 4)
+                else if(keuze == 3)
                 {
                     break;
                 }
