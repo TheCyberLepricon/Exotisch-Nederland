@@ -2,13 +2,17 @@
 using Console_app_exotisch_nederland.Models;
 namespace Console_app_exotisch_nederland.Business
 {
-    internal class BusinessProgram
+    public class BusinessProgram
     {
         DataProgram _dal = new DataProgram();
         
         public void VoegOrganismeToe(Organisme.Dier dier)
         {
             _dal.VoegDierToe(dier);
+        }
+        public List<Organisme.TotaalOrganismes> AlleOrganismes()
+        {
+            return _dal.HaalAlleOrganismeSoortenOp();
         }
 
         public string NullCheck(string woord)
@@ -276,9 +280,6 @@ namespace Console_app_exotisch_nederland.Business
 
 
         
-        public string Business()
-        {
-            return _dal.Testing();
-        }
+
     }
 }

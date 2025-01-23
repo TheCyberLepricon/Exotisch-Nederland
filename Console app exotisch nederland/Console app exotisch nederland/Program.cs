@@ -34,7 +34,7 @@ namespace Console_app_exotisch_nederland
             PresentatieProgram _presentatie = new PresentatieProgram();
             while(!klaar)
             {
-                Organisme standaard = new Organisme("", "", "", "", "", "", "");
+                Organisme standaard = new Organisme("", "", "", "", "", "", "", "");
                 Console.WriteLine("Kies een optie:\n\t1. Nieuw Organisme toevoegen\n\t2. Alle organismen (gefilterd) bekijken\n\t3. Afsluiten\n" +
                     "\n\tVoer een getal in!");
                 List<string> locatieData = new List<string>();
@@ -109,14 +109,14 @@ namespace Console_app_exotisch_nederland
                             Console.WriteLine("Vul een continent in (Europa, Afrika...)");
                             return _presentatie.PlantOorsprongAntwoord(Console.ReadLine());
                         }
-                        string Beschrijvingvraa()
+                        string BeschrijvingVraag()
                         {
                             Console.WriteLine("Geef een beschrijving van wat U gezien heeft.");
                             return _presentatie.BeschrijvingAntwoord(Console.ReadLine());
                         }
                         OrganismeLocatie();
                         var plantje =new Organisme.Plant("Plant",PlantTypeVraag(), Capitalize(PlantOorsprongVraag()), Capitalize(PlantAfkomstVraag()),
-                            DatumKrijgen(), locatieData[0], locatieData[1] , Capitalize(PlantNaamVraag()));
+                            DatumKrijgen(), locatieData[0], locatieData[1] , Capitalize(PlantNaamVraag()), Capitalize(BeschrijvingVraag()));
                         standaard.VoegPlantToe(plantje);
 
 
@@ -156,7 +156,7 @@ namespace Console_app_exotisch_nederland
 
                         OrganismeLocatie();
                         var diertje = new Organisme.Dier("Dier", DierTypeVraag(), Capitalize(DierOorsprongVraag()), Capitalize(DierAfkomstVraag()),
-                            DatumKrijgen(), locatieData[0], locatieData[1], Capitalize(DierNaamVraag()));
+                            DatumKrijgen(), locatieData[0], locatieData[1], Capitalize(DierNaamVraag()), Capitalize(BeschrijvingVraag()));
                         _presentatie.VoegOrganismeToe(diertje);
                     }
                 }
@@ -167,15 +167,11 @@ namespace Console_app_exotisch_nederland
                     {
                         return degrees * Math.PI / 180;
                     }
-                    double CalculateDistance(decimal lat1decimal, decimal lat2decimal, decimal lon1decimal, decimal lon2decimal)
+                    double CalculateDistance(double lat1, double lat2, double lon1, double lon2)
                     {
                         const double R = 6371;
                         //R = straal van de aarde in km
 
-                        double lat1 = Convert.ToDouble(lat1decimal);
-                        double lat2 = Convert.ToDouble(lat2decimal);
-                        double lon1 = Convert.ToDouble(lon1decimal);
-                        double lon2 = Convert.ToDouble(lon2decimal);
 
                         double lat1Rad = DegreesToRadians(lat1);
                         double lat2Rad = DegreesToRadians(lat2);
@@ -193,24 +189,13 @@ namespace Console_app_exotisch_nederland
                         double distance = R * c;
                         return distance;
                     }
+                    Console.WriteLine("Wat wilt u zien?");
+                    Console.WriteLine("Kies een van de onderstaande opties:");
+                    Console.WriteLine("\t1. Dier\n\t2. Plant\n\t3. Alles");
+                    _presentatie.OrganismesBekijken(Console.ReadLine());
                     
-                    foreach (Organismes.Plant organisme in Organismes.Plant.plantenLijst)
-                    {
-                        //52.091106, 5.122004
-                        double lat2temp = 52.091106;
-                        double lon2temp = 5.122004;
-                        if (CalculateDistance(Convert.ToDecimal(organisme.Latitude), Convert.ToDecimal(lat2temp), Convert.ToDecimal(organisme.Longitude) , Convert.ToDecimal(lon2temp)) > 5)
-                        {
-                            Console.WriteLine("Dit is te ver");
-                            Console.WriteLine(CalculateDistance(Convert.ToDecimal(organisme.Latitude), Convert.ToDecimal(lat2temp), Convert.ToDecimal(organisme.Longitude), Convert.ToDecimal(lon2temp)));
-                            organisme.Beschrijving();
-                        }
-                        else
-                        {
-                            organisme.Beschrijving();
-                        }
+
                     }
-                }
                 else if(keuze == 3)
                 {
                     break;

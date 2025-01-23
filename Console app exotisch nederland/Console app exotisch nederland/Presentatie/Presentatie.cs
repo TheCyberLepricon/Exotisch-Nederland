@@ -6,14 +6,11 @@ namespace Console_app_exotisch_nederland.Presentatie
     {
         
         BusinessProgram _business = new BusinessProgram();
-        public string Presentatie()
-        {
-            return _business.Business();
-        }
         public void VoegOrganismeToe(Organisme.Dier dier)
         {
             _business.VoegOrganismeToe(dier);
         }
+        
 
 
         public string PlantTypeAntwoord()
@@ -125,5 +122,23 @@ namespace Console_app_exotisch_nederland.Presentatie
                 return beschrijvingChecked;
             }
         }
+        public void OrganismesBekijken(string organismesBekijken)
+        {
+            if(organismesBekijken == "1" | organismesBekijken.ToLower() == "dier")
+            {
+                foreach(Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
+                {
+                    if (totaalOrganisme.DierOfPlant == "Dier")
+                    {
+                        Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\t\tType: {totaalOrganisme.Type}" +
+                            $"\nOorpsrong: {totaalOrganisme.Oorsprong}\t\tAfkomst: {totaalOrganisme.Afkomst}" +
+                            $"\nDatum: {totaalOrganisme.DatumTijd}\t\tBeschrijving: {totaalOrganisme.Beschrijving}");
+                    }
+                }
+            }
+        }
+    
+    
+    
     }
 }

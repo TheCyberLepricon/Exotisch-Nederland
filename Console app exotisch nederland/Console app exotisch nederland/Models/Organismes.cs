@@ -1,10 +1,10 @@
 ﻿namespace Console_app_exotisch_nederland.Models
 {
-    
-    
+
+
     public class Organisme
     {
-        
+
         public void VoegPlantToe(Plant organisme)
         {
             Plant.plantenLijst.Add(organisme);
@@ -38,8 +38,8 @@
         {
             public string NaamPlant { get; private set; }
             public static List<Plant> plantenLijst = new List<Plant>();
-            public Plant(string dierOfPlant,string type, string oorsprong, string afkomst, string datumTijd, string latitude, string longitude, string naamPlant, string beschrijving) :
-                base(dierOfPlant,type, oorsprong, afkomst, datumTijd, latitude, longitude, beschrijving)
+            public Plant(string dierOfPlant, string type, string oorsprong, string afkomst, string datumTijd, string latitude, string longitude, string naamPlant, string beschrijving) :
+                base(dierOfPlant, type, oorsprong, afkomst, datumTijd, latitude, longitude, beschrijving)
             {
                 NaamPlant = naamPlant;
             }
@@ -53,7 +53,7 @@
         {
             public string NaamDier { get; private set; }
             public static List<Dier> dierenLijst = new List<Dier>();
-            public Dier(string dierOfPlant,string type, string oorsprong, string afkomst, string datumTijd, string latitude, string longitude, string naamDier, string beschrijving) :
+            public Dier(string dierOfPlant, string type, string oorsprong, string afkomst, string datumTijd, string latitude, string longitude, string naamDier, string beschrijving) :
                         base(dierOfPlant, type, oorsprong, afkomst, datumTijd, latitude, longitude, beschrijving)
             {
                 NaamDier = naamDier;
@@ -64,8 +64,17 @@
                     $" {DatumTijd}\nlatitude = {Latitude}\nlongitude = {Longitude}\nnaamDier = {NaamDier}");
             }
         }
+        public class TotaalOrganismes : Organisme
+        {
+            public string NaamOrganisme { get; private set; }
+
+            public TotaalOrganismes(string dierOfPlant, string type, string oorsprong, string afkomst, string datumTijd, string latitude, string longitude, string naamOrganisme, string beschrijving) :
+                        base(dierOfPlant, type, oorsprong, afkomst, datumTijd, latitude, longitude, beschrijving)
+            {
+                NaamOrganisme = naamOrganisme;
+            }
+        }
     }
-    
 }
 
     

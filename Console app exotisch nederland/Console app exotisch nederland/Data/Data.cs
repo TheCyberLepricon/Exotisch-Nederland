@@ -40,14 +40,14 @@ namespace Console_app_exotisch_nederland.Data
 
             command.ExecuteNonQuery();
         }
-        public List<Organisme> HaalAlleOrganismeSoortenOp()
+        public List<Organisme.TotaalOrganismes> HaalAlleOrganismeSoortenOp()
         {
-            var soorten = new List<Organisme>();
+            var soorten = new List<Organisme.TotaalOrganismes>();
 
             using var connection = new SqliteConnection(_connectionString);
             connection.Open();
             string selectQuery = @"
-                SELECT * FROM InheemseSoort;";
+                SELECT * FROM Registraties;";
             using var command = new SqliteCommand(selectQuery, connection);
 
             using var reader = command.ExecuteReader();
@@ -61,8 +61,9 @@ namespace Console_app_exotisch_nederland.Data
                 string latitude = reader.GetString(5);
                 string longitude = reader.GetString(6);
                 string beschrijving = reader.GetString(7);
+                string naamOrganisme = reader.GetString(8);
 
-                soorten.Add(new Organisme
+                soorten.Add(new Organisme.TotaalOrganismes
                     (
                     naam,
                     type,
@@ -71,6 +72,7 @@ namespace Console_app_exotisch_nederland.Data
                     datumTijd,
                     latitude,
                     longitude,
+                    naamOrganisme,
                     beschrijving
                     
                     ));
