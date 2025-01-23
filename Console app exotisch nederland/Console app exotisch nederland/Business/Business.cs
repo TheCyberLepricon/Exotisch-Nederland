@@ -1,10 +1,16 @@
 ﻿using Console_app_exotisch_nederland.Data;
+using Console_app_exotisch_nederland.Models;
 namespace Console_app_exotisch_nederland.Business
 {
     internal class BusinessProgram
     {
         DataProgram _dal = new DataProgram();
         
+        public void VoegOrganismeToe(Organisme.Dier dier)
+        {
+            _dal.VoegDierToe(dier);
+        }
+
         public string NullCheck(string woord)
         {
             if(woord == null)

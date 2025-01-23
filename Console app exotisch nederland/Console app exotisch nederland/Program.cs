@@ -34,7 +34,7 @@ namespace Console_app_exotisch_nederland
             PresentatieProgram _presentatie = new PresentatieProgram();
             while(!klaar)
             {
-                Organismes standaard = new Organismes("", "", "", "", "", "", "");
+                Organisme standaard = new Organisme("", "", "", "", "", "", "");
                 Console.WriteLine("Kies een optie:\n\t1. Nieuw Organisme toevoegen\n\t2. Alle organismen (gefilterd) bekijken\n\t3. Afsluiten\n" +
                     "\n\tVoer een getal in!");
                 List<string> locatieData = new List<string>();
@@ -109,8 +109,13 @@ namespace Console_app_exotisch_nederland
                             Console.WriteLine("Vul een continent in (Europa, Afrika...)");
                             return _presentatie.PlantOorsprongAntwoord(Console.ReadLine());
                         }
+                        string Beschrijvingvraa()
+                        {
+                            Console.WriteLine("Geef een beschrijving van wat U gezien heeft.");
+                            return _presentatie.BeschrijvingAntwoord(Console.ReadLine());
+                        }
                         OrganismeLocatie();
-                        var plantje =new Organismes.Plant("Plant",PlantTypeVraag(), Capitalize(PlantOorsprongVraag()), Capitalize(PlantAfkomstVraag()),
+                        var plantje =new Organisme.Plant("Plant",PlantTypeVraag(), Capitalize(PlantOorsprongVraag()), Capitalize(PlantAfkomstVraag()),
                             DatumKrijgen(), locatieData[0], locatieData[1] , Capitalize(PlantNaamVraag()));
                         standaard.VoegPlantToe(plantje);
 
@@ -143,11 +148,16 @@ namespace Console_app_exotisch_nederland
                             Console.WriteLine("Europa, Afrika, Azie, Zuid Amerika, Noord Amerika, Antartica, Oceanie");
                             return _presentatie.DierOorsprongAntwoord(Console.ReadLine());
                         }
+                        string BeschrijvingVraag()
+                        {
+                            Console.WriteLine("Geef een beschrijving van wat U gezien heeft.");
+                            return _presentatie.BeschrijvingAntwoord(Console.ReadLine());
+                        }
 
                         OrganismeLocatie();
-                        var diertje = new Organismes.Plant("Dier", DierTypeVraag(), Capitalize(DierOorsprongVraag()), Capitalize(DierAfkomstVraag()),
+                        var diertje = new Organisme.Dier("Dier", DierTypeVraag(), Capitalize(DierOorsprongVraag()), Capitalize(DierAfkomstVraag()),
                             DatumKrijgen(), locatieData[0], locatieData[1], Capitalize(DierNaamVraag()));
-                        standaard.VoegPlantToe(diertje);
+                        _presentatie.VoegOrganismeToe(diertje);
                     }
                 }
                 

@@ -2,18 +2,15 @@
 {
     
     
-    public class Organismes
+    public class Organisme
     {
         
         public void VoegPlantToe(Plant organisme)
         {
             Plant.plantenLijst.Add(organisme);
         }
-        public void VoegDierToe(Dier organisme)
-        {
-            Dier.dierenLijst.Add(organisme);
-        }
-        public virtual void Beschrijving()
+
+        public virtual void BeschrijvingGeven()
         {
             Console.WriteLine($"Dit hoort niet op dit scherm te staan......");
         }
@@ -24,7 +21,8 @@
         public string DatumTijd { get; private set; }
         public string Latitude { get; private set; }
         public string Longitude { get; private set; }
-        public Organismes(string dierOfPlant, string type, string oorsprong, string afkomst, string datumTijd, string latitude, string longitude)
+        public string Beschrijving { get; private set; }
+        public Organisme(string dierOfPlant, string type, string oorsprong, string afkomst, string datumTijd, string latitude, string longitude, string beschrijving)
         {
             DierOfPlant = dierOfPlant;
             Oorsprong = oorsprong;
@@ -33,32 +31,34 @@
             Latitude = latitude;
             Longitude = longitude;
             Type = type;
+            Beschrijving = beschrijving;
+
         }
-        public class Plant : Organismes
+        public class Plant : Organisme
         {
             public string NaamPlant { get; private set; }
             public static List<Plant> plantenLijst = new List<Plant>();
-            public Plant(string dierOfPlant,string type, string oorsprong, string afkomst, string datumTijd, string latitude, string longitude, string naamPlant) :
-                base(dierOfPlant,type, oorsprong, afkomst, datumTijd, latitude, longitude)
+            public Plant(string dierOfPlant,string type, string oorsprong, string afkomst, string datumTijd, string latitude, string longitude, string naamPlant, string beschrijving) :
+                base(dierOfPlant,type, oorsprong, afkomst, datumTijd, latitude, longitude, beschrijving)
             {
                 NaamPlant = naamPlant;
             }
-            public override void Beschrijving()
+            public override void BeschrijvingGeven()
             {
                 Console.WriteLine($"dierOfPlant = {DierOfPlant}\ntype = {Type}\noorsprong = {Oorsprong}\nafkomst = {Afkomst}\ndatumTijd =" +
                     $" {DatumTijd}\nlatitude = {Latitude}\nlongitude = {Longitude}\nnaamPlant = {NaamPlant}");
             }
         }
-        public class Dier : Organismes
+        public class Dier : Organisme
         {
             public string NaamDier { get; private set; }
             public static List<Dier> dierenLijst = new List<Dier>();
-            public Dier(string dierOfPlant,string type, string oorsprong, string afkomst, string datumTijd, string latitude, string longitude, string naamDier) :
-                        base(dierOfPlant, type, oorsprong, afkomst, datumTijd, latitude, longitude)
+            public Dier(string dierOfPlant,string type, string oorsprong, string afkomst, string datumTijd, string latitude, string longitude, string naamDier, string beschrijving) :
+                        base(dierOfPlant, type, oorsprong, afkomst, datumTijd, latitude, longitude, beschrijving)
             {
                 NaamDier = naamDier;
             }
-            public override void Beschrijving()
+            public override void BeschrijvingGeven()
             {
                 Console.WriteLine($"dierOfPlant = {DierOfPlant}\ntype = {Type}\noorsprong = {Oorsprong}\nafkomst = {Afkomst}\ndatumTijd =" +
                     $" {DatumTijd}\nlatitude = {Latitude}\nlongitude = {Longitude}\nnaamDier = {NaamDier}");

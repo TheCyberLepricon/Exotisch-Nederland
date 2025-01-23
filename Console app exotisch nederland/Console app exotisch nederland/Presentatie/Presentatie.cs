@@ -1,4 +1,5 @@
 ﻿using Console_app_exotisch_nederland.Business;
+using Console_app_exotisch_nederland.Models;
 namespace Console_app_exotisch_nederland.Presentatie
 {
     internal class PresentatieProgram
@@ -8,6 +9,10 @@ namespace Console_app_exotisch_nederland.Presentatie
         public string Presentatie()
         {
             return _business.Business();
+        }
+        public void VoegOrganismeToe(Organisme.Dier dier)
+        {
+            _business.VoegOrganismeToe(dier);
         }
 
 
@@ -33,7 +38,7 @@ namespace Console_app_exotisch_nederland.Presentatie
             if (nullChecked == "Null")
             {
                 Console.WriteLine("Vul iets in!");
-                return PlantNaamAntwoord(plantNaam);
+                return PlantNaamAntwoord(Console.ReadLine());
             }
             else
             {
@@ -74,7 +79,8 @@ namespace Console_app_exotisch_nederland.Presentatie
             string dierNaamChecked = _business.NullCheck(dierNaam);
             if ( dierNaamChecked == "Null")
             {
-                return DierNaamAntwoord(dierNaam);
+                Console.WriteLine("Vul iets in!");
+                return DierNaamAntwoord(Console.ReadLine());
             }
             else
             {
@@ -104,6 +110,19 @@ namespace Console_app_exotisch_nederland.Presentatie
             else
             {
                 return afkomstDier;
+            }
+        }
+        public string BeschrijvingAntwoord(string beschrijving)
+        {
+            string beschrijvingChecked = _business.NullCheck(beschrijving);
+            if (beschrijvingChecked == "Null")
+            {
+                Console.WriteLine("Vul iets in!");
+                return DierNaamAntwoord(Console.ReadLine());
+            }
+            else
+            {
+                return beschrijvingChecked;
             }
         }
     }
