@@ -17,8 +17,8 @@ public class LocationResponse
     public string city { get; set; }
     public string zip_code { get; set; }
     public string time_zone { get; set; }
-    public decimal latitude { get; set; }
-    public decimal longitude { get; set; }
+    public double latitude { get; set; }
+    public double longitude { get; set; }
     public int metro_code { get; set; }
 }
 
@@ -34,10 +34,10 @@ namespace Console_app_exotisch_nederland
             PresentatieProgram _presentatie = new PresentatieProgram();
             while(!klaar)
             {
-                Organisme standaard = new Organisme("", "", "", "", "", "", "", "");
+                Organisme standaard = new Organisme("", "", "", "", "", 22.32312, 22.32312, "");
                 Console.WriteLine("Kies een optie:\n\t1. Nieuw Organisme toevoegen\n\t2. Alle organismen (gefilterd) bekijken\n\t3. Afsluiten\n" +
                     "\n\tVoer een getal in!");
-                List<string> locatieData = new List<string>();
+                List<double> locatieData = new List<double>();
                 int keuze;
                 while(true)
                 {
@@ -75,10 +75,8 @@ namespace Console_app_exotisch_nederland
                         string response = await client.GetStringAsync(url);
 
                         var locationData = JsonSerializer.Deserialize<LocationResponse>(response);
-                        locatieData.Add(locationData.latitude.ToString());
-                        locatieData.Add(locationData.longitude.ToString());
-                        locatieData.Add(locationData.city.ToString());
-                        locatieData.Add(locationData.region_name.ToString());
+                        locatieData.Add(locationData.latitude);
+                        locatieData.Add(locationData.longitude);
 
 
 
@@ -117,7 +115,7 @@ namespace Console_app_exotisch_nederland
                         OrganismeLocatie();
                         var plantje =new Organisme.Plant("Plant",PlantTypeVraag(), Capitalize(PlantOorsprongVraag()), Capitalize(PlantAfkomstVraag()),
                             DatumKrijgen(), locatieData[0], locatieData[1] , Capitalize(PlantNaamVraag()), Capitalize(BeschrijvingVraag()));
-                        standaard.VoegPlantToe(plantje);
+                        _presentatie.VoegPlantToe(plantje);
 
 
 
@@ -157,7 +155,7 @@ namespace Console_app_exotisch_nederland
                         OrganismeLocatie();
                         var diertje = new Organisme.Dier("Dier", DierTypeVraag(), Capitalize(DierOorsprongVraag()), Capitalize(DierAfkomstVraag()),
                             DatumKrijgen(), locatieData[0], locatieData[1], Capitalize(DierNaamVraag()), Capitalize(BeschrijvingVraag()));
-                        _presentatie.VoegOrganismeToe(diertje);
+                        _presentatie.VoegDierToe(diertje);
                     }
                 }
                 

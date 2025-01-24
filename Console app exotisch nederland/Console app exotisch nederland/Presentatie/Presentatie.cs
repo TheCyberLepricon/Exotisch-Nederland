@@ -6,11 +6,15 @@ namespace Console_app_exotisch_nederland.Presentatie
     {
         
         BusinessProgram _business = new BusinessProgram();
-        public void VoegOrganismeToe(Organisme.Dier dier)
+        public void VoegDierToe(Organisme.Dier dier)
         {
-            _business.VoegOrganismeToe(dier);
+            _business.VoegDierToe(dier);
         }
-        
+        public void VoegPlantToe(Organisme.Plant plant)
+        {
+            _business.VoegPlantToe(plant);
+        }
+
 
 
         public string PlantTypeAntwoord()
@@ -122,7 +126,7 @@ namespace Console_app_exotisch_nederland.Presentatie
                 return beschrijvingChecked;
             }
         }
-        public void OrganismesBekijken(string organismesBekijken)
+        public string OrganismesBekijken(string organismesBekijken)
         {
             if(organismesBekijken == "1" | organismesBekijken.ToLower() == "dier")
             {
@@ -133,7 +137,43 @@ namespace Console_app_exotisch_nederland.Presentatie
                         Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\t\tType: {totaalOrganisme.Type}" +
                             $"\nOorpsrong: {totaalOrganisme.Oorsprong}\t\tAfkomst: {totaalOrganisme.Afkomst}" +
                             $"\nDatum: {totaalOrganisme.DatumTijd}\t\tBeschrijving: {totaalOrganisme.Beschrijving}");
+                        
                     }
+                }
+                return "";
+            }
+            else if (organismesBekijken == "2" | organismesBekijken.ToLower() == "plant")
+            {
+                foreach (Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
+                {
+                    if (totaalOrganisme.DierOfPlant == "Plant")
+                    {
+                        Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\t\tType: {totaalOrganisme.Type}" +
+                            $"\nOorpsrong: {totaalOrganisme.Oorsprong}\t\tAfkomst: {totaalOrganisme.Afkomst}" +
+                            $"\nDatum: {totaalOrganisme.DatumTijd}\t\tBeschrijving: {totaalOrganisme.Beschrijving}");
+                    }
+                }
+                return "";
+            }
+            else if (organismesBekijken == "3" | organismesBekijken.ToLower() == "alles")
+            {
+                foreach (Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
+                {
+                    Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\t\tType: {totaalOrganisme.Type}" +
+                            $"\nOorpsrong: {totaalOrganisme.Oorsprong}\t\tAfkomst: {totaalOrganisme.Afkomst}" +
+                            $"\nDatum: {totaalOrganisme.DatumTijd}\t\tBeschrijving: {totaalOrganisme.Beschrijving}");
+                }
+                return "";
+            }
+            else
+            {
+                if(_business.GeenGeldigeKeuze() == "GGA")
+                {
+                    return OrganismesBekijken(Console.ReadLine());
+                }
+                else
+                {
+                    return "";
                 }
             }
         }

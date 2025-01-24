@@ -6,9 +6,13 @@ namespace Console_app_exotisch_nederland.Business
     {
         DataProgram _dal = new DataProgram();
         
-        public void VoegOrganismeToe(Organisme.Dier dier)
+        public void VoegDierToe(Organisme.Dier dier)
         {
             _dal.VoegDierToe(dier);
+        }
+        public void VoegPlantToe(Organisme.Plant plant)
+        {
+            _dal.VoegPlantToe(plant);
         }
         public List<Organisme.TotaalOrganismes> AlleOrganismes()
         {
@@ -272,6 +276,11 @@ namespace Console_app_exotisch_nederland.Business
                 return "GGA";
                 //Geen Geldig Antwoord
             }
+        }
+        public string GeenGeldigeKeuze()
+        {
+            Console.WriteLine("Geen geldige keuze!");
+            return "GGA";
         }
 
 
