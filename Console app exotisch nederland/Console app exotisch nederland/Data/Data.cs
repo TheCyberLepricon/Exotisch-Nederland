@@ -9,8 +9,8 @@ namespace Console_app_exotisch_nederland.Data
 {
     public class DataProgram
     {
-        private readonly string _connectionString = @"Data Source=""C:\Users\lars0\Downloads\Tussendatabase.db"";";
-        //server=lweprican;Table=sdjfuiw;user=medewerker;password=djfsnhjhfq;
+        private readonly string _connectionString = @"Data Source=""C:\Users\Gebruiker\Downloads\Tussendatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
+        private readonly string _hoofdConnectionString = @"Data Source=""C:\Users\Gebruiker\Downloads\Hoofddatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
         public void OrganismeSoortRepository()
         {
             InitializeDatabase();
@@ -47,7 +47,7 @@ namespace Console_app_exotisch_nederland.Data
             using var connection = new SqliteConnection(_connectionString);
             connection.Open();
             string insertQuery = @"
-                INSERT INTO Registraties (dierOfPlant, Soort, Oorsprong, Afkomst, DatumTijd, Lengtegraad, Breedtegraad, NaamOrganisme,Beschrijving)
+                INSERT INTO Registraties (DierOfPlant, Soort, Oorsprong, Afkomst, DatumTijd, Lengtegraad, Breedtegraad, NaamOrganisme,Beschrijving)
                 VALUES (@dierOfPlant, @Soort, @Oorsprong, @Afkomst, @Datum, @Latitude, @Longitude, @NaamOrganisme, @Beschrijving);";
 
             using var command = new SqliteCommand(insertQuery, connection);
@@ -69,24 +69,48 @@ namespace Console_app_exotisch_nederland.Data
         {
             var soorten = new List<Organisme.TotaalOrganismes>();
 
-            using var connection = new SqliteConnection(_connectionString);
+            using var connection = new SqliteConnection(_hoofdConnectionString);
             connection.Open();
-            string selectQuery = @"
-                SELECT *  FROM Registraties;";
-            using var command = new SqliteCommand(selectQuery, connection);
+            string query = @"
+            SELECT 
+            W.Waarneming_id,
+            W.NaamOrganisme,
+            W.DierOfPlant,
+            W.Oorsprong,
+            W.Afkomst,
+            W.Aantal_registraties,
+            S.Soort AS SoortNaam,
+            R.DatumTijd,
+            L.Lengtegraad,
+            L.Breedtegraad,
+            B.Beschrijving AS BeschrijvingTekst
+            FROM 
+            Waarnemingen W
+            JOIN 
+            Soorten S ON W.Soort_id = S.Soort_id
+            JOIN 
+            Registraties R ON W.Waarneming_id = R.Waarneming_id
+            JOIN 
+            Locaties L ON R.Locatie_id = L.Locatie_id
+            JOIN 
+            Beschrijvingen B ON R.Beschrijving_id = B.Beschrijving_id;
+            ";
+            using var command = new SqliteCommand(query, connection);   
 
             using var reader = command.ExecuteReader();
             while(reader.Read())
             {
-                string dierOfPlant = reader.GetString(1);
-                string type = reader.GetString(2);
-                string oorsprong = reader.GetString(3);
-                string afkomst = reader.GetString(4);
-                string datumTijd = reader.GetString(5);
-                double latitude = reader.GetDouble(6);
-                double longitude = reader.GetDouble(7);
-                string beschrijving = reader.GetString(9);
-                string naamOrganisme = reader.GetString(8);
+                string dierOfPlant = reader.GetString(reader.GetOrdinal("DierOfPlant"));
+                string type = reader.GetString(reader.GetOrdinal("SoortNaam"));
+                string oorsprong = reader.GetString(reader.GetOrdinal("Oorsprong"));
+                string afkomst = reader.GetString(reader.GetOrdinal("Afkomst"));
+                string datumTijd = reader.GetString(reader.GetOrdinal("DatumTijd"));
+                double latitude = reader.GetDouble(reader.GetOrdinal("Lengtegraad"));
+                double longitude = reader.GetDouble(reader.GetOrdinal("Breedtegraad"));
+                string beschrijving = reader.GetString(reader.GetOrdinal("BeschrijvingTekst"));
+                string naamOrganisme = reader.GetString(reader.GetOrdinal("NaamOrganisme"));
+                
+                
 
                 soorten.Add(new Organisme.TotaalOrganismes
                     (

@@ -1,10 +1,68 @@
 ﻿using Console_app_exotisch_nederland.Business;
 using Console_app_exotisch_nederland.Models;
+using System.Globalization;
+using System.Text.Json;
 namespace Console_app_exotisch_nederland.Presentatie
 {
     internal class PresentatieProgram
     {
-        
+        public class LocationResponse
+        {
+            public string ip { get; set; }
+            public string country_code { get; set; }
+            public string country_name { get; set; }
+            public string region_code { get; set; }
+            public string region_name { get; set; }
+            public string city { get; set; }
+            public string zip_code { get; set; }
+            public string time_zone { get; set; }
+            public double latitude { get; set; }
+            public double longitude { get; set; }
+            public int metro_code { get; set; }
+        }
+        List<double> locatieData = new List<double>();
+        async void LocatieKrijgen()
+        {
+            using HttpClient client = new HttpClient();
+            string url = "https://freegeoip.app/json/";
+
+            Console.WriteLine("Locatie opvragen...");
+            string response = await client.GetStringAsync(url);
+
+            var locationData = JsonSerializer.Deserialize<LocationResponse>(response);
+            locatieData.Add(locationData.latitude);
+            locatieData.Add(locationData.longitude);
+
+
+
+        }
+        static double DegreesToRadians(double degrees)
+        {
+            return degrees * Math.PI / 180;
+        }
+        double CalculateDistance(double lat1, double lat2, double lon1, double lon2)
+        {
+            const double R = 6371;
+            //R = straal van de aarde in km
+
+
+            double lat1Rad = DegreesToRadians(lat1);
+            double lat2Rad = DegreesToRadians(lat2);
+            double lon1Rad = DegreesToRadians(lon1);
+            double lon2Rad = DegreesToRadians(lon2);
+
+
+
+            double deltaLat = lat2 - lat1;
+            double deltaLon = lon2 - lon1;
+            double a = Math.Sin(deltaLat / 2) * Math.Sin(deltaLat / 2) +
+            Math.Cos(lat1) * Math.Cos(lat2) *
+            Math.Sin(deltaLon / 2) * Math.Sin(deltaLon / 2);
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            double distance = R * c;
+            return distance;
+        }
+
         BusinessProgram _business = new BusinessProgram();
         public void VoegDierToe(Organisme.Dier dier)
         {
@@ -128,16 +186,21 @@ namespace Console_app_exotisch_nederland.Presentatie
         }
         public string OrganismesBekijken(string organismesBekijken)
         {
-            if(organismesBekijken == "1" | organismesBekijken.ToLower() == "dier")
+            LocatieKrijgen();
+            if (organismesBekijken == "1" | organismesBekijken.ToLower() == "dier")
             {
                 foreach(Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
                 {
+                    DateTime datumTijdNieuwe = DateTime.ParseExact(totaalOrganisme.DatumTijd, "yyyy-MM-dd-HH", CultureInfo.InvariantCulture);
                     if (totaalOrganisme.DierOfPlant == "Dier")
                     {
-                        Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\t\tType: {totaalOrganisme.Type}" +
-                            $"\nOorpsrong: {totaalOrganisme.Oorsprong}\t\tAfkomst: {totaalOrganisme.Afkomst}" +
-                            $"\nDatum: {totaalOrganisme.DatumTijd}\t\tBeschrijving: {totaalOrganisme.Beschrijving}");
-                        
+                        if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5){
+                            Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
+                            $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
+                            $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
+                            Console.WriteLine($"Het dier is: {CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude)}km van u vandaan");
+                        }
+
                     }
                 }
                 return "";
@@ -146,11 +209,16 @@ namespace Console_app_exotisch_nederland.Presentatie
             {
                 foreach (Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
                 {
+                    DateTime datumTijdNieuwe = DateTime.ParseExact(totaalOrganisme.DatumTijd, "yyyy-MM-dd-HH", CultureInfo.InvariantCulture);
                     if (totaalOrganisme.DierOfPlant == "Plant")
                     {
-                        Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\t\tType: {totaalOrganisme.Type}" +
-                            $"\nOorpsrong: {totaalOrganisme.Oorsprong}\t\tAfkomst: {totaalOrganisme.Afkomst}" +
-                            $"\nDatum: {totaalOrganisme.DatumTijd}\t\tBeschrijving: {totaalOrganisme.Beschrijving}");
+                        if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5)
+                        {
+                            Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
+                            $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
+                            $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
+                            Console.WriteLine($"De plant is: {CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude)}km van u vandaan");
+                        }
                     }
                 }
                 return "";
@@ -159,9 +227,14 @@ namespace Console_app_exotisch_nederland.Presentatie
             {
                 foreach (Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
                 {
-                    Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\t\tType: {totaalOrganisme.Type}" +
-                            $"\nOorpsrong: {totaalOrganisme.Oorsprong}\t\tAfkomst: {totaalOrganisme.Afkomst}" +
-                            $"\nDatum: {totaalOrganisme.DatumTijd}\t\tBeschrijving: {totaalOrganisme.Beschrijving}");
+                    DateTime datumTijdNieuwe = DateTime.ParseExact(totaalOrganisme.DatumTijd, "yyyy-MM-dd-HH", CultureInfo.InvariantCulture);
+                    if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5)
+                    {
+                        Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
+                        $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
+                        $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
+                        Console.WriteLine($"De plant is: {CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude)}km van u vandaan");
+                    }
                 }
                 return "";
             }

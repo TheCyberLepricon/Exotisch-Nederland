@@ -251,7 +251,7 @@ namespace Console_app_exotisch_nederland.Business
             }
             else
             {
-                Console.WriteLine("Voer een continent in!");
+                Console.WriteLine("Voer een geldige optie in!");
                 return "GGA";
                 //Geen Geldig Antwoord
             }
@@ -272,7 +272,7 @@ namespace Console_app_exotisch_nederland.Business
             }
             else
             {
-                Console.WriteLine("Vul \"Inheems\" of \"Exoot\" in!");
+                Console.WriteLine("Vul \"Inheems\", \"Exoot\" of \"Onbekend\" in!");
                 return "GGA";
                 //Geen Geldig Antwoord
             }

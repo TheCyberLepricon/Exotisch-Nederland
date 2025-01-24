@@ -35,7 +35,7 @@ namespace Console_app_exotisch_nederland
             while(!klaar)
             {
                 Organisme standaard = new Organisme("", "", "", "", "", 22.32312, 22.32312, "");
-                Console.WriteLine("Kies een optie:\n\t1. Nieuw Organisme toevoegen\n\t2. Alle organismen (gefilterd) bekijken\n\t3. Afsluiten\n" +
+                Console.WriteLine("\n\nKies een optie:\n\t1. Nieuw Organisme toevoegen\n\t2. Alle organismen (gefilterd) bekijken\n\t3. Afsluiten\n" +
                     "\n\tVoer een getal in!");
                 List<double> locatieData = new List<double>();
                 int keuze;
@@ -71,7 +71,7 @@ namespace Console_app_exotisch_nederland
                         using HttpClient client = new HttpClient();
                         string url = "https://freegeoip.app/json/";
 
-                        Console.WriteLine("Locatie opvragen...");
+                        Console.WriteLine("\n\nLocatie opvragen...");
                         string response = await client.GetStringAsync(url);
 
                         var locationData = JsonSerializer.Deserialize<LocationResponse>(response);
@@ -81,7 +81,7 @@ namespace Console_app_exotisch_nederland
 
 
                     }
-                    Console.WriteLine("Is het een dier of plant?");
+                    Console.WriteLine("\n\nIs het een dier of plant?");
                     string dierOfPlant = Console.ReadLine();
                     if (dierOfPlant.ToLower() == "plant")
                     {
@@ -91,31 +91,33 @@ namespace Console_app_exotisch_nederland
                         }
                         string PlantNaamVraag()
                         {
-                            Console.WriteLine("Wat is de naam van de soort?");
+                            Console.WriteLine("\n\nWat is de naam van de soort?");
                             Console.WriteLine("Vul de alledaagse term in of de wetenschappelijke term voor de soort.");
                             Console.WriteLine("Vul \"Onbekend\" als U geen idee heeft!");
                             return _presentatie.PlantNaamAntwoord(Console.ReadLine());
                         }
                         string PlantAfkomstVraag()
                         {
-                            Console.WriteLine("Is de plant \"Inheems\" of \"Exoot\"?");
+                            Console.WriteLine("\n\nIs de plant \"Inheems\", \"Exoot\" of \"Onbekend\"?");
                             return _presentatie.PlantAfkomstAntwoord(Console.ReadLine());
                         }
                         string PlantOorsprongVraag()
                         {
-                            Console.WriteLine("Waar komt de plant vandaan?");
-                            Console.WriteLine("Vul een continent in (Europa, Afrika...)");
+                            Console.WriteLine("\n\nWaar komt de plant vandaan?");
+                            Console.WriteLine("Vul een continent in:");
+                            Console.WriteLine("Europa, Afrika, Azie, Zuid Amerika, Noord Amerika, Antartica, Oceanie");
                             return _presentatie.PlantOorsprongAntwoord(Console.ReadLine());
                         }
                         string BeschrijvingVraag()
                         {
-                            Console.WriteLine("Geef een beschrijving van wat U gezien heeft.");
+                            Console.WriteLine("\n\nGeef een beschrijving van wat u gezien heeft.");
                             return _presentatie.BeschrijvingAntwoord(Console.ReadLine());
                         }
                         OrganismeLocatie();
                         var plantje =new Organisme.Plant("Plant",PlantTypeVraag(), Capitalize(PlantOorsprongVraag()), Capitalize(PlantAfkomstVraag()),
                             DatumKrijgen(), locatieData[0], locatieData[1] , Capitalize(PlantNaamVraag()), Capitalize(BeschrijvingVraag()));
                         _presentatie.VoegPlantToe(plantje);
+                        Console.WriteLine($"Plant Toegevoegd!");
 
 
 
@@ -129,26 +131,26 @@ namespace Console_app_exotisch_nederland
                         }
                         string DierNaamVraag()
                         {
-                            Console.WriteLine("Wat is de naam van het dier?");
+                            Console.WriteLine("\n\nWat is de naam van het dier?");
                             Console.WriteLine("Vul de alledaagse term in of de wetenschappelijke term voor het dier.");
                             Console.WriteLine("Vul \"Onbekend\" als U geen idee heeft!");
                             return _presentatie.DierNaamAntwoord(Console.ReadLine());
                         }
                         string DierAfkomstVraag()
                         {
-                            Console.WriteLine("Is het dier \"Inheems\" of \"Exoot\"?");
+                            Console.WriteLine("\n\nIs het dier \"Inheems\", \"Exoot\" of \"Onbekend\"?");
                             return _presentatie.DierAfkomstAntwoord(Console.ReadLine());
                         }
                         string DierOorsprongVraag()
                         {
-                            Console.WriteLine("Waar komt het dier vandaan?");
+                            Console.WriteLine("\n\nWaar komt het dier vandaan?");
                             Console.WriteLine("Vul een continent in:");
                             Console.WriteLine("Europa, Afrika, Azie, Zuid Amerika, Noord Amerika, Antartica, Oceanie");
                             return _presentatie.DierOorsprongAntwoord(Console.ReadLine());
                         }
                         string BeschrijvingVraag()
                         {
-                            Console.WriteLine("Geef een beschrijving van wat U gezien heeft.");
+                            Console.WriteLine("\n\nGeef een beschrijving van wat u gezien heeft.");
                             return _presentatie.BeschrijvingAntwoord(Console.ReadLine());
                         }
 
@@ -156,6 +158,7 @@ namespace Console_app_exotisch_nederland
                         var diertje = new Organisme.Dier("Dier", DierTypeVraag(), Capitalize(DierOorsprongVraag()), Capitalize(DierAfkomstVraag()),
                             DatumKrijgen(), locatieData[0], locatieData[1], Capitalize(DierNaamVraag()), Capitalize(BeschrijvingVraag()));
                         _presentatie.VoegDierToe(diertje);
+                        Console.WriteLine($"Dier Toegevoegd!");
                     }
                 }
                 
@@ -187,7 +190,7 @@ namespace Console_app_exotisch_nederland
                         double distance = R * c;
                         return distance;
                     }
-                    Console.WriteLine("Wat wilt u zien?");
+                    Console.WriteLine("\n\nWat wilt u zien? (Binnen 5km)");
                     Console.WriteLine("Kies een van de onderstaande opties:");
                     Console.WriteLine("\t1. Dier\n\t2. Plant\n\t3. Alles");
                     _presentatie.OrganismesBekijken(Console.ReadLine());
