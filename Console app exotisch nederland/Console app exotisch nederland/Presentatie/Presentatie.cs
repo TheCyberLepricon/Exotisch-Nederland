@@ -191,13 +191,13 @@ namespace Console_app_exotisch_nederland.Presentatie
             {
                 foreach(Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
                 {
-                    // totaalOrganisme.DatumTijd komt binnen als string in format: "YYY-MM-DD HH" deze string kan dan niet worden geconvertert naar de format van DateTime (van C#) -> DD-MM-YYYY
-                    // Mogelijke oplossing het anders opslaan van de datums in de database. Mogelijk als varchar in de format -> blijkbaar als het als een niet herkenbare format wordt opgeslagen in de database dan slaat die het op als een string dus dat is geen probleem
-                    // Mogelijke oplossing twee: het opslaan in de database als "DD-MM-YYYY-HH" als een string en dan deze string uit elkaar halen en de getallen eruit halen en ze elk in hun eigen variabele stoppen en de variabele dag, maand en jaar in de datetime zetten en het uur gewoon oproepen bij de CW
-                    // Of mogelijke oplossing 2.b: als het toch wordt opgesplits en elk hun eigen variabele krijgen gewoon de variabele zo in de string zetten (voorbeeld code):
-                    // $"\nDatum: {dag}-{maand}-{jaar}\nUur {uur}";
-                    // Het is dan volgens mij ook makkelijker op het CGI op het uit te leggen en we kunnen altijd nog erbij vertellen dat als ze vragen waarom we niet DateTime datatype hebben gebruikt, dat wij het simpelweg niet werkend konden krijgen.
-                    DateTime datumTijdNieuwe = DateTime.ParseExact(totaalOrganisme.DatumTijd, "yyyy-MM-dd-HH", CultureInfo.InvariantCulture); 
+                    // totaalOrganisme.DatumTijd komt binnen als een string, die wordt opgesplitst in integers en dan in de DateTime variabele gezet
+                    string[] opgesplitsteDatumTijd = totaalOrganisme.DatumTijd.Split("-");
+                    int Dag = int.Parse(opgesplitsteDatumTijd[0]);
+                    int Maand = int.Parse(opgesplitsteDatumTijd [1]);
+                    int Jaar = int.Parse(opgesplitsteDatumTijd[2]);
+                    int Uur = int.Parse(opgesplitsteDatumTijd[3]);
+                    DateTime datumTijdNieuwe = new DateTime(Jaar, Maand,Dag, Uur, 0, 0);
                     if (totaalOrganisme.DierOfPlant == "Dier")
                     {
                         if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5){
@@ -215,7 +215,12 @@ namespace Console_app_exotisch_nederland.Presentatie
             {
                 foreach (Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
                 {
-                    DateTime datumTijdNieuwe = DateTime.ParseExact(totaalOrganisme.DatumTijd, "yyyy-MM-dd-HH", CultureInfo.InvariantCulture);
+                    string[] opgesplitsteDatumTijd = totaalOrganisme.DatumTijd.Split("-");
+                    int Dag = int.Parse(opgesplitsteDatumTijd[0]);
+                    int Maand = int.Parse(opgesplitsteDatumTijd[1]);
+                    int Jaar = int.Parse(opgesplitsteDatumTijd[2]);
+                    int Uur = int.Parse(opgesplitsteDatumTijd[3]);
+                    DateTime datumTijdNieuwe = new DateTime(Jaar, Maand, Dag, Uur, 0, 0);
                     if (totaalOrganisme.DierOfPlant == "Plant")
                     {
                         if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5)
@@ -233,7 +238,12 @@ namespace Console_app_exotisch_nederland.Presentatie
             {
                 foreach (Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
                 {
-                    DateTime datumTijdNieuwe = DateTime.ParseExact(totaalOrganisme.DatumTijd, "yyyy-MM-dd-HH", CultureInfo.InvariantCulture);
+                    string[] opgesplitsteDatumTijd = totaalOrganisme.DatumTijd.Split("-");
+                    int Dag = int.Parse(opgesplitsteDatumTijd[0]);
+                    int Maand = int.Parse(opgesplitsteDatumTijd[1]);
+                    int Jaar = int.Parse(opgesplitsteDatumTijd[2]);
+                    int Uur = int.Parse(opgesplitsteDatumTijd[3]);
+                    DateTime datumTijdNieuwe = new DateTime(Jaar, Maand, Dag, Uur, 0, 0);
                     if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5)
                     {
                         Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
