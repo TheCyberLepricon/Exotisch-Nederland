@@ -14,6 +14,7 @@ namespace Console_app_moderator_exotisch_nederland.Presentation
 
         public void TussenDatabaseInzien()
         {
+            _business.HaalTussenDbOp();
             int TussenRegistraties = _business.AantalTempRegistraties();
                         
             Console.WriteLine($"Er zijn {TussenRegistraties} registraties in de tussendatabase");

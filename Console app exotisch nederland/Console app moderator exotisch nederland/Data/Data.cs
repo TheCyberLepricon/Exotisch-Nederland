@@ -11,7 +11,7 @@ namespace Console_app_moderator_exotisch_nederland.Data
 {
     internal class DataProgram
     {
-         
+       
 
         private readonly string _TussenDatabaseConnectie = @"Data Source=""C:\Users\kanem\OneDrive - Zuyd Hogeschool\Casus\Programmeren\Database\Tussendatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
         private readonly string _HoofdDatabaseConnectie = @"Data Source=""C:\Users\Gebruiker\Downloads\Hoofddatabase.db"";";//Verander dit naar de locatie
@@ -31,7 +31,8 @@ namespace Console_app_moderator_exotisch_nederland.Data
 
         public List<TussenDbOrganisme> HaalTussenDatabaseOp()
         {
-            var organismen = new List<TussenDbOrganisme>();
+            List<TussenDbOrganisme> _organismeLijst = new List<TussenDbOrganisme>();
+
             using var connection = new SqliteConnection(_TussenDatabaseConnectie);
             connection.Open();
             string query = @"SELECT * FROM Registraties";
@@ -60,10 +61,11 @@ namespace Console_app_moderator_exotisch_nederland.Data
                 int Jaar = int.Parse(OpgesplitsteDatumTijd[2]);
                 int Uur = int.Parse(OpgesplitsteDatumTijd[3]);
 
-                DateTime datumTijd = new DateTime(Jaar, Maand, Dag, Uur, 0, 0);
+                DateTime DatumTijd = new DateTime(Jaar, Maand, Dag, Uur, 0, 0);
+                string datumTijd = DatumTijd.ToString("dd-MM-yyyy-hh");
                 
 
-                organismen.Add(new TussenDbOrganisme(
+                _organismeLijst.Add(new TussenDbOrganisme(
                     registratieId,
                     naamOrganisme,
                     dierOfPlant,
@@ -76,33 +78,47 @@ namespace Console_app_moderator_exotisch_nederland.Data
                     beschrijving));
 
             } 
+            return _organismeLijst;
         
 
             
-            return organismen;
+            
         }
 
-        public void TussenDbAanpassen()
+        public List<TussenDbOrganisme> TussenDatabaseOrganismenLijst()
+        {
+            return HaalTussenDatabaseOp();
+        }
+
+        public void TussenDbAanpassen(List<TussenDbOrganisme> tussenlijst)
         {
             using var connection = new SqliteConnection(_TussenDatabaseConnectie);
             connection.Open();
 
             string query = @"UPDATE Registraties SET DierOfPlant = @dierOfPlant, Soort = @Soort, Oorsprong = @Oorsprong, Afkomst = @Afkomst, DatumTijd = @Datum, Lengtegraad = @Latitude, Breedtegraad = @Longitude, NaamOrganisme = @NaamOrganisme, Beschrijving = @Beschrijving WHERE Registratie_id = @Registratie_Id";
 
-            foreach (var registratie in HaalTussenDatabaseOp())
+            foreach (var registratie in tussenlijst)
             {
-                using var command = new SqliteCommand(query, connection);
-                command.Parameters.AddWithValue("@Registratie_id", registratie.RegistratieId);
-                command.Parameters.AddWithValue("@Soort", registratie.Type);
-                command.Parameters.AddWithValue("@Oorsprong", registratie.Oorsprong);
-                command.Parameters.AddWithValue("@Afkomst", registratie.Afkomst);
-                command.Parameters.AddWithValue("@Beschrijving", registratie.Beschrijving);
-                command.Parameters.AddWithValue("@Latitude", registratie.Latitude);
-                command.Parameters.AddWithValue("@Longitude", registratie.Longitude);
-                command.Parameters.AddWithValue("@Datum", registratie.DatumTijd);
-                command.Parameters.AddWithValue("@dierOfPlant", registratie.DierOfPlant);
-                command.Parameters.AddWithValue("@NaamOrganisme", registratie.NaamOrganisme);
+                foreach (var haalregistratie in HaalTussenDatabaseOp())
+                {
+                    if (haalregistratie.RegistratieId == registratie.RegistratieId)
+                    {
+                        using var command = new SqliteCommand(query, connection);
+                        command.Parameters.AddWithValue("@Registratie_Id", registratie.RegistratieId);
+                        command.Parameters.AddWithValue("@Soort", registratie.Type);
+                        command.Parameters.AddWithValue("@Oorsprong", registratie.Oorsprong);
+                        command.Parameters.AddWithValue("@Afkomst", registratie.Afkomst);
+                        command.Parameters.AddWithValue("@Beschrijving", registratie.Beschrijving);
+                        command.Parameters.AddWithValue("@Latitude", registratie.Latitude);
+                        command.Parameters.AddWithValue("@Longitude", registratie.Longitude);
+                        command.Parameters.AddWithValue("@Datum", registratie.DatumTijd);
+                        command.Parameters.AddWithValue("@dierOfPlant", registratie.DierOfPlant);
+                        command.Parameters.AddWithValue("@NaamOrganisme", registratie.NaamOrganisme);
+                        command.ExecuteNonQuery();
+                    }
+                }
             }
+            
         }
 
 

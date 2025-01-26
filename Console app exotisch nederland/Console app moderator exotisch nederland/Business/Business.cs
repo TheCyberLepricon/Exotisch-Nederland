@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Console_app_moderator_exotisch_nederland.Data;
+using Console_app_moderator_exotisch_nederland.Models;
 using Console_app_moderator_exotisch_nederland.Presentation;
 
 namespace Console_app_moderator_exotisch_nederland.Business
@@ -13,16 +14,20 @@ namespace Console_app_moderator_exotisch_nederland.Business
         DataProgram _data = new DataProgram();
 
 
+        public List<TussenDbOrganisme> HaalTussenDbOp()
+        {
+            return _data.HaalTussenDatabaseOp();
+        }
 
         public int AantalTempRegistraties()
         {
-            int AantalRegistraties = _data.HaalTussenDatabaseOp().Count();
+            int AantalRegistraties = _data.TussenDatabaseOrganismenLijst().Count();
             return AantalRegistraties;
         }
 
         public void TempRegistratiesBekijken()
         {
-            foreach (var registratie in _data.HaalTussenDatabaseOp())
+            foreach (var registratie in _data.TussenDatabaseOrganismenLijst())
             {
                 registratie.InformatieOrganisme();
                 Console.WriteLine("\nKlik op enter om de volgende registratie te bekijken \n");
@@ -32,7 +37,9 @@ namespace Console_app_moderator_exotisch_nederland.Business
 
         public void PasRegistratiesAan()
         {
-            foreach (var registratie in _data.HaalTussenDatabaseOp())
+            var registraties = _data.TussenDatabaseOrganismenLijst();
+            List<TussenDbOrganisme> tussenlijst = new List<TussenDbOrganisme>();
+            foreach (var registratie in registraties)
             {
                 registratie.InformatieOrganisme();
                 bool IncorrecteInvoer = true;
@@ -52,8 +59,9 @@ namespace Console_app_moderator_exotisch_nederland.Business
                                 Console.WriteLine($"Momentele naam van registratie: {registratie.NaamOrganisme}");
                                 Console.WriteLine("Voer de nieuwe naam in de van de registratie:");
                                 string NieuweNaam = Console.ReadLine();
-                                registratie.HernoemOrganisme(NieuweNaam);
-                                Console.WriteLine($"Nieue naam van registratie: {registratie.NaamOrganisme}");
+                                registratie.HernoemOrganisme(NieuweNaam); // this is the lil bitch
+                                Console.WriteLine($"Nieuwe naam van registratie: {registratie.NaamOrganisme}");
+
                             break;
                         case 2:
                                 IncorrecteInvoer = false;
@@ -76,11 +84,16 @@ namespace Console_app_moderator_exotisch_nederland.Business
                                 Console.WriteLine("Volgende registratie wordt weergegeven");
                             break;
                     }
+
                 }
+                tussenlijst.Add(registratie);
+                
 
 
             }
-            _data.TussenDbAanpassen();
+            _data.TussenDbAanpassen(tussenlijst);
+
+            _data.HaalTussenDatabaseOp();
         }
     }
 }

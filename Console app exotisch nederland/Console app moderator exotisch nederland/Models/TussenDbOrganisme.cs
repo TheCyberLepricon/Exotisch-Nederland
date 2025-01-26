@@ -11,7 +11,7 @@ namespace Console_app_moderator_exotisch_nederland.Models
     {
         public int RegistratieId {  get; private set; }
 
-        public TussenDbOrganisme(int registratieId, string naamOrganisme, string dierOfPlant, string type, string oorsprong, string afkomst, DateTime datumTijd, double latitude, double longitude, string beschrijving) 
+        public TussenDbOrganisme(int registratieId, string naamOrganisme, string dierOfPlant, string type, string oorsprong, string afkomst, string datumTijd, double latitude, double longitude, string beschrijving) 
         : base(naamOrganisme, dierOfPlant, type, oorsprong, afkomst, datumTijd, latitude, longitude, beschrijving)
         {
             RegistratieId = registratieId;

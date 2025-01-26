@@ -10,7 +10,7 @@ namespace Console_app_moderator_exotisch_nederland.Models
     {
         public int WaarnemingId { get; private set; }
 
-        public HoofDbOrganisme(int waarnemingId, string naamOrganisme, string dierOfPlant, string type, string oorsprong, string afkomst, DateTime datumTijd, double latitude, double longitude, string beschrijving) 
+        public HoofDbOrganisme(int waarnemingId, string naamOrganisme, string dierOfPlant, string type, string oorsprong, string afkomst, string datumTijd, double latitude, double longitude, string beschrijving) 
         : base(naamOrganisme, dierOfPlant, type, oorsprong, afkomst, datumTijd, latitude, longitude, beschrijving)
         {
             WaarnemingId = waarnemingId;
