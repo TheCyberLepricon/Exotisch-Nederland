@@ -35,6 +35,12 @@ namespace Console_app_moderator_exotisch_nederland.Models
         {
             Console.WriteLine("Algemene informatie organisme");
         }
+
+        public virtual string HernoemOrganisme(string NieuweNaam)
+        {
+            NaamOrganisme = NieuweNaam; 
+            return NaamOrganisme;
+        }
     }
     
 

@@ -26,8 +26,8 @@ namespace Console_app_moderator_exotisch_nederland.Presentation
                 string keuze;
                 bool Loop = false;
                 while (!Loop){
-                    Console.WriteLine("Wilt u de bekijken of toevoegen aan hoofddatabase?");
-                    Console.WriteLine("Kies \"bekijken\" of \"toevoegen\"");
+                    Console.WriteLine("Wilt u de registraties bekijken of aanpassen?");
+                    Console.WriteLine("Kies \"bekijken\" of \"aanpassen\"");
                     keuze = Console.ReadLine();
 
                     switch (keuze.ToLower())
@@ -36,9 +36,9 @@ namespace Console_app_moderator_exotisch_nederland.Presentation
                             Loop = true;
                             NieuweRegistratiesBekijken();
                             break;
-                        case "toevoegen":
+                        case "aanpassen":
                             Loop = true;
-                            RegistratiesToevoegen();
+                            RegistratiesAanpassen();
                             break;
                         default:
                             Console.WriteLine("Ongeldig antwoord");
@@ -66,9 +66,9 @@ namespace Console_app_moderator_exotisch_nederland.Presentation
 
         }
 
-        public void RegistratiesToevoegen()
+        public void RegistratiesAanpassen()
         {
-
+            _business.PasRegistratiesAan();
         }
     }
 }
