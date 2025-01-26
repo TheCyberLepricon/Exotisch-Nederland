@@ -10,7 +10,7 @@ namespace Console_app_exotisch_nederland.Data
     public class DataProgram
     {
         private readonly string _connectionString = @"Data Source=""C:\Users\Gebruiker\Downloads\Tussendatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
-        private readonly string _hoofdConnectionString = @"Data Source=""C:\Users\Gebruiker\Downloads\Hoofddatabase (1).db""";//Verander dit naar de locatie van de database op jouw computer
+        private readonly string _hoofdConnectionString = @"Data Source=""C:\Users\Gebruiker\Downloads\Hoofddatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
         public void OrganismeSoortRepository()
         {
             InitializeDatabase();

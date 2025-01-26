@@ -1,7 +1,6 @@
 ﻿using Console_app_exotisch_nederland.Business;
 using Console_app_exotisch_nederland.Models;
 using System.Globalization;
-using System.Text;
 using System.Text.Json;
 namespace Console_app_exotisch_nederland.Presentatie
 {
@@ -9,18 +8,20 @@ namespace Console_app_exotisch_nederland.Presentatie
     {
         public class LocationResponse
         {
-            public static string Ip { get; set; }
-            public static string CountryCode { get; set; }
-            public static string CountryName { get; set; }
-            public static string RegionCode { get; set; }
-            public static string RegionName { get; set; }
-            public static string City { get; set; }
-            public static string ZipCode { get; set; }
-            public static string TimeZone { get; set; }
-            public static double Latitude { get; set; }
-            public static double Longitude { get; set; }
+            public string ip { get; set; }
+            public string country_code { get; set; }
+            public string country_name { get; set; }
+            public string region_code { get; set; }
+            public string region_name { get; set; }
+            public string city { get; set; }
+            public string zip_code { get; set; }
+            public string time_zone { get; set; }
+            public double latitude { get; set; }
+            public double longitude { get; set; }
+            public int metro_code { get; set; }
         }
-        public static async Task LocatieKrijgen()
+        List<double> locatieData = new List<double>();
+        async void LocatieKrijgen()
         {
             using HttpClient client = new HttpClient();
             string url = "https://freegeoip.app/json/";
@@ -28,12 +29,11 @@ namespace Console_app_exotisch_nederland.Presentatie
             Console.WriteLine("Locatie opvragen...");
             string response = await client.GetStringAsync(url);
 
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true // Zorgt voor insensitiviteit
-            };
+            var locationData = JsonSerializer.Deserialize<LocationResponse>(response);
+            locatieData.Add(locationData.latitude);
+            locatieData.Add(locationData.longitude);
 
-            var locationData = JsonSerializer.Deserialize<LocationResponse>(response, options);
+
 
         }
         static double DegreesToRadians(double degrees)
@@ -189,8 +189,7 @@ namespace Console_app_exotisch_nederland.Presentatie
             LocatieKrijgen();
             if (organismesBekijken == "1" | organismesBekijken.ToLower() == "dier")
             {
-                int count = 0;
-                foreach (Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
+                foreach(Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
                 {
                     // totaalOrganisme.DatumTijd komt binnen als een string, die wordt opgesplitst in integers en dan in de DateTime variabele gezet
                     string[] opgesplitsteDatumTijd = totaalOrganisme.DatumTijd.Split("-");
@@ -201,25 +200,19 @@ namespace Console_app_exotisch_nederland.Presentatie
                     DateTime datumTijdNieuwe = new DateTime(Jaar, Maand,Dag, Uur, 0, 0);
                     if (totaalOrganisme.DierOfPlant == "Dier")
                     {
-                        if (CalculateDistance(LocationResponse.Latitude , totaalOrganisme.Latitude, LocationResponse.Latitude, totaalOrganisme.Longitude) < 5){
-                            count ++;
+                        if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5){
                             Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
                             $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
                             $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
-                            Console.WriteLine($"Het dier is: {CalculateDistance(LocationResponse.Latitude, totaalOrganisme.Latitude, LocationResponse.Latitude, totaalOrganisme.Longitude)}km van u vandaan");
+                            Console.WriteLine($"Het dier is: {CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude)}km van u vandaan");
                         }
-                        
 
                     }
-                }
-                if (count == 0){
-                    Console.WriteLine("Er zijn geen organismes in de buurt");
                 }
                 return "";
             }
             else if (organismesBekijken == "2" | organismesBekijken.ToLower() == "plant")
             {
-                int count = 0;
                 foreach (Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
                 {
                     string[] opgesplitsteDatumTijd = totaalOrganisme.DatumTijd.Split("-");
@@ -230,25 +223,19 @@ namespace Console_app_exotisch_nederland.Presentatie
                     DateTime datumTijdNieuwe = new DateTime(Jaar, Maand, Dag, Uur, 0, 0);
                     if (totaalOrganisme.DierOfPlant == "Plant")
                     {
-                        if (CalculateDistance(LocationResponse.Latitude, totaalOrganisme.Latitude, LocationResponse.Latitude, totaalOrganisme.Longitude) < 5)
+                        if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5)
                         {
-                            count++;
                             Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
                             $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
                             $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
-                            Console.WriteLine($"De plant is: {CalculateDistance(LocationResponse.Latitude, totaalOrganisme.Latitude, LocationResponse.Latitude, totaalOrganisme.Longitude)}km van u vandaan");
+                            Console.WriteLine($"De plant is: {CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude)}km van u vandaan");
                         }
                     }
-                }
-                if (count == 0)
-                {
-                    Console.WriteLine("Er zijn geen organismes in de buurt");
                 }
                 return "";
             }
             else if (organismesBekijken == "3" | organismesBekijken.ToLower() == "alles")
             {
-                int count = 0;
                 foreach (Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
                 {
                     string[] opgesplitsteDatumTijd = totaalOrganisme.DatumTijd.Split("-");
@@ -257,19 +244,13 @@ namespace Console_app_exotisch_nederland.Presentatie
                     int Jaar = int.Parse(opgesplitsteDatumTijd[2]);
                     int Uur = int.Parse(opgesplitsteDatumTijd[3]);
                     DateTime datumTijdNieuwe = new DateTime(Jaar, Maand, Dag, Uur, 0, 0);
-                    if (CalculateDistance(LocationResponse.Latitude, totaalOrganisme.Latitude, LocationResponse.Latitude, totaalOrganisme.Longitude) < 5)
+                    if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5)
                     {
-                        count++;
                         Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
                         $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
                         $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
-                        Console.WriteLine($"De plant is: {CalculateDistance(LocationResponse.Latitude, totaalOrganisme.Latitude, LocationResponse.Latitude, totaalOrganisme.Longitude)}km van u vandaan");
+                        Console.WriteLine($"De plant is: {CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude)}km van u vandaan");
                     }
-                    
-                }
-                if (count == 0)
-                {
-                    Console.WriteLine("Er zijn geen organismes in de buurt");
                 }
                 return "";
             }
