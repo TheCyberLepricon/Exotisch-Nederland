@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Console_app_moderator_exotisch_nederland.Models
 {
-    internal class TussenDbOrganisme : Organisme
+    internal class HoofDbOrganisme : Organisme
     {
-        public int RegistratieId {  get; private set; }
+        public int WaarnemingId { get; private set; }
 
-        public TussenDbOrganisme(int registratieId, string naamOrganisme, string dierOfPlant, string type, string oorsprong, string afkomst, DateTime datumTijd, double latitude, double longitude, string beschrijving) 
+        public HoofDbOrganisme(int waarnemingId, string naamOrganisme, string dierOfPlant, string type, string oorsprong, string afkomst, DateTime datumTijd, double latitude, double longitude, string beschrijving) 
         : base(naamOrganisme, dierOfPlant, type, oorsprong, afkomst, datumTijd, latitude, longitude, beschrijving)
         {
-            RegistratieId = registratieId;
+            WaarnemingId = waarnemingId;
         }
 
         public override void InformatieOrganisme()
         {
             Console.WriteLine("Gegevens organisme:");
-            Console.WriteLine($"|Registratie id: {RegistratieId}\n" +
+            Console.WriteLine($"|Registratie id: {WaarnemingId}\n" +
                 $"| Naam: {NaamOrganisme}\n" +
                 $"| Type organisme: {DierOfPlant}\n" +
                 $"| Soort: {Type}\n" +
@@ -31,5 +30,7 @@ namespace Console_app_moderator_exotisch_nederland.Models
                 $"| Breedtegraad: {Longitude}\n" +
                 $"| Beschrijving: {Beschrijving}\n");
         }
+        
+
     }
 }

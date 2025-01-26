@@ -79,15 +79,13 @@ namespace Console_app_exotisch_nederland.Data
             W.Oorsprong,
             W.Afkomst,
             W.Aantal_registraties,
-            S.Soort AS SoortNaam,
+            W.Soort AS SoortNaam,
             R.DatumTijd,
             L.Lengtegraad,
             L.Breedtegraad,
             B.Beschrijving AS BeschrijvingTekst
             FROM 
             Waarnemingen W
-            JOIN 
-            Soorten S ON W.Soort_id = S.Soort_id
             JOIN 
             Registraties R ON W.Waarneming_id = R.Waarneming_id
             JOIN 

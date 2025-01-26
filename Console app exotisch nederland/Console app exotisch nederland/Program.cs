@@ -63,7 +63,7 @@ namespace Console_app_exotisch_nederland
                     string DatumKrijgen()
                     {
                         DateTime now = DateTime.Now;
-                        string CorrecteData = now.ToString("yyyy-MM-dd-HH");
+                        string CorrecteData = now.ToString("dd-MM-yyyy-HH");
                         return CorrecteData;
                     }
                     async void OrganismeLocatie()
@@ -92,8 +92,8 @@ namespace Console_app_exotisch_nederland
                         string PlantNaamVraag()
                         {
                             Console.WriteLine("\n\nWat is de naam van de soort?");
-                            Console.WriteLine("Vul de alledaagse term in of de wetenschappelijke term voor de soort.");
-                            Console.WriteLine("Vul \"Onbekend\" als U geen idee heeft!");
+                            Console.WriteLine("Vul de alledaagse term in of de wetenschappelijke term voor de plant.");
+                            Console.WriteLine("Vul \"Onbekend\" in als U geen idee heeft!");
                             return _presentatie.PlantNaamAntwoord(Console.ReadLine());
                         }
                         string PlantAfkomstVraag()

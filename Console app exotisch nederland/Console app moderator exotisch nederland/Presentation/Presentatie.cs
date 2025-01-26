@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,26 +24,30 @@ namespace Console_app_moderator_exotisch_nederland.Presentation
             else
             {
                 string keuze;
-                bool IncorrecteInvoer = false;
-                while (!IncorrecteInvoer){
-                    Console.WriteLine("Wilt u deze bekijken? j/n");
+                bool Loop = false;
+                while (!Loop){
+                    Console.WriteLine("Wilt u de bekijken of toevoegen aan hoofddatabase?");
+                    Console.WriteLine("Kies \"bekijken\" of \"toevoegen\"");
                     keuze = Console.ReadLine();
-                    if (keuze.ToLower() == "j" || keuze.ToLower() == "n")
+
+                    switch (keuze.ToLower())
                     {
-                        IncorrecteInvoer = true;
-                        if (keuze == "j")
-                        {
+                        case "bekijken":
+                            Loop = true;
                             NieuweRegistratiesBekijken();
-                        }
-                        else if (keuze == "n")
-                        {
-                            Console.WriteLine("U wordt terug gestuurd naar het hoofdmenu");
-                        }
+                            break;
+                        case "toevoegen":
+                            Loop = true;
+                            RegistratiesToevoegen();
+                            break;
+                        default:
+                            Console.WriteLine("Ongeldig antwoord");
+                            break;
+                            
+
+
                     }
-                    else
-                    {
-                        Console.WriteLine("Voer a.u.b 'j' of 'n' in.");
-                    }
+                    
                 }
             }
                 
@@ -52,11 +57,16 @@ namespace Console_app_moderator_exotisch_nederland.Presentation
         
         public void NieuweRegistratiesBekijken()
         {
-            Console.WriteLine("Yippie het werkt tot nu toe");
+            _business.TempRegistratiesBekijken();
         }
 
 
         public void HoofdDatabaseInzien()
+        {
+
+        }
+
+        public void RegistratiesToevoegen()
         {
 
         }

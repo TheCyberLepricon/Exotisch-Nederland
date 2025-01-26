@@ -16,7 +16,11 @@ namespace Console_app_moderator_exotisch_nederland.Data
         private readonly string _TussenDatabaseConnectie = @"Data Source=""C:\Users\Gebruiker\Downloads\Tussendatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
         private readonly string _HoofdDatabaseConnectie = @"Data Source=""C:\Users\Gebruiker\Downloads\Hoofddatabase.db"";";//Verander dit naar de locatie
         
-
+        private void VerbindMetTussenDB()
+        {
+            using var connection = new SqliteConnection(_TussenDatabaseConnectie);
+            connection.Open();
+        }
         private void VerbindMetHoofdDB()
         {
             using var connection = new SqliteConnection(_HoofdDatabaseConnectie );
@@ -77,6 +81,19 @@ namespace Console_app_moderator_exotisch_nederland.Data
             
             return organismen;
         }
+
+        public void OrganismeToevoegenHoofdDB()
+        {
+            using var connection = new SqliteConnection(_HoofdDatabaseConnectie);
+            connection.Open();
+        }
+
+
+        public bool BestaatWaarneming()
+        {
+
+        }
+        
 
         
     }
