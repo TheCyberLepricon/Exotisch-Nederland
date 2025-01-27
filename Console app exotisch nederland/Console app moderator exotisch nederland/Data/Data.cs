@@ -14,7 +14,7 @@ namespace Console_app_moderator_exotisch_nederland.Data
        
 
         private readonly string _TussenDatabaseConnectie = @"Data Source=""C:\Users\kanem\OneDrive - Zuyd Hogeschool\Casus\Programmeren\Database\Tussendatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
-        private readonly string _HoofdDatabaseConnectie = @"Data Source=""C:\Users\Gebruiker\Downloads\Hoofddatabase.db"";";//Verander dit naar de locatie
+        private readonly string _HoofdDatabaseConnectie = @"Data Source=""C:\Users\kanem\OneDrive - Zuyd Hogeschool\Casus\Programmeren\Database\Hoofddatabase.db"";";//Verander dit naar de locatie
         
         private void VerbindMetTussenDB()
         {
@@ -122,10 +122,68 @@ namespace Console_app_moderator_exotisch_nederland.Data
         }
 
 
-        public void OrganismeToevoegenHoofdDB()
+        public List<Waarneming> HaalWaarnemingenOp()
         {
+            List<Waarneming> _waarnemingenLijst = new List<Waarneming>();
             using var connection = new SqliteConnection(_HoofdDatabaseConnectie);
             connection.Open();
+            string query = @"Select * From Waarnemingen";
+            using var command = new SqliteCommand( query, connection);
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                int waarnemingId = reader.GetInt32(reader.GetOrdinal("Waarneming_id"));
+                string waarnemingNaam = reader.GetString(reader.GetOrdinal("NaamOrganisme"));
+                string dierOfPlant = reader.GetString(reader.GetOrdinal("DierOfPlant"));
+                string type = reader.GetString(reader.GetOrdinal("Soort"));
+                string oorsprong = reader.GetString(reader.GetOrdinal("Oorsprong"));
+                string afkomst = reader.GetString(reader.GetOrdinal("Afkomst"));
+                int aantalRegistraties = reader.GetInt32(reader.GetOrdinal("aantal_registraties"));
+
+                _waarnemingenLijst.Add(new Waarneming(
+                    waarnemingId,
+                    waarnemingNaam,
+                    dierOfPlant,
+                    type,
+                    oorsprong,
+                    afkomst,
+                    aantalRegistraties));
+            }
+            return _waarnemingenLijst;
+
+            
+        }
+
+        public List<Registratie> HaalHoofdDatabaseRegistratiesOp()
+        {
+            List<Registratie> _registratieLijst = new List<Registratie>();
+            using var connection = new SqliteConnection(_HoofdDatabaseConnectie);
+            connection.Open();
+            string query = @"Select * From Registraties";
+
+            using var command = new SqliteCommand(query, connection);
+
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                int registratieId = reader.GetInt32(reader.GetOrdinal("Registratie_id"));
+                int waarnemingId = reader.GetInt32(reader.GetOrdinal("Waarneming_id"));
+                string datumTijd = reader.GetString(reader.GetOrdinal("DatumTijd"));
+                double lengtegraad = reader.GetDouble(reader.GetOrdinal("Lengtegraad"));
+                double breedtegraad = reader.GetDouble(reader.GetOrdinal("Breedtegraad"));
+                string beschrijving = reader.GetString(reader.GetOrdinal("Beschrijving"));
+
+                _registratieLijst.Add(new Registratie(
+                    registratieId,
+                    waarnemingId,
+                    datumTijd,
+                    lengtegraad,
+                    breedtegraad,
+                    beschrijving));
+            }
+            return _registratieLijst;
         }
 
 

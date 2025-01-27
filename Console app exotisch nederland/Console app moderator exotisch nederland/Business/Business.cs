@@ -19,12 +19,32 @@ namespace Console_app_moderator_exotisch_nederland.Business
             return _data.HaalTussenDatabaseOp();
         }
 
+        public List<Waarneming> HaalWaarnemingenOp()
+        {
+            return _data.HaalWaarnemingenOp();
+        }
+
         public int AantalTempRegistraties()
         {
             int AantalRegistraties = _data.TussenDatabaseOrganismenLijst().Count();
             return AantalRegistraties;
         }
 
+        public int AantalWaarnemingen()
+        {
+            int AantalWaarnemingen = _data.HaalWaarnemingenOp().Count();
+            return AantalWaarnemingen;
+        }
+
+        public void WaarnemingenBekijken()
+        {
+            foreach (var waarneming in _data.HaalWaarnemingenOp())
+            {
+                waarneming.InformatieWaarneming();
+                Console.WriteLine("\n Klik op enter om de volgende registratie te bekijken \n");
+                Console.ReadKey();
+            }
+        }
         public void TempRegistratiesBekijken()
         {
             foreach (var registratie in _data.TussenDatabaseOrganismenLijst())
@@ -118,6 +138,21 @@ namespace Console_app_moderator_exotisch_nederland.Business
             _data.TussenDbAanpassen(tussenlijst);
 
             _data.HaalTussenDatabaseOp();
+        }
+
+        public List<Registratie> ZieRegistratiesHoofdDb(int id)
+        {
+            List<Registratie> _gekozenRegistraties = new List<Registratie>();
+            foreach (var registratie in _data.HaalHoofdDatabaseRegistratiesOp())
+            {
+                if(registratie.WaarnemingId == id)
+                {
+                    _gekozenRegistraties.Add(registratie);
+                }
+            }
+            return _gekozenRegistraties;
+
+            
         }
     }
 }

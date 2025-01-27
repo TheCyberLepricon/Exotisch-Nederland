@@ -40,14 +40,54 @@ namespace Console_app_moderator_exotisch_nederland.Presentation
         }
 
 
-        public void HoofdDatabaseInzien()
+        public void HoofdDatabaseWaarnemingenInzien()
         {
+            _business.HaalWaarnemingenOp();
+            int AantalWaarnemingen = _business.AantalWaarnemingen();
 
+           if (AantalWaarnemingen == 0)
+            {
+                Console.WriteLine("U wordt terug gestuurd naar het hoofdmenu");
+            }
+            else
+            {
+                _business.WaarnemingenBekijken();
+            }
         }
 
         public void RegistratiesAanpassen()
         {
             _business.PasRegistratiesAan();
         }
+
+        public void HoofdDatabaseRegistratiesInzien()
+        {
+            Console.WriteLine("Van welke waarneming wil u de registraties inzien?");
+            Console.WriteLine("Voer het getal hiervan in");
+            foreach(var waarneming in _business.HaalWaarnemingenOp())
+            {
+                Console.WriteLine($"{waarneming.WaarnemingId}: {waarneming.WaarnemingNaam}");
+            }
+            bool IncorrecteInvoer = true;
+            while( IncorrecteInvoer )
+            {
+                if (!int.TryParse(Console.ReadLine(),out int keuze))
+                {
+                    Console.WriteLine("Ongeldige invoer, voer a.u.b. de getal in van uw keuze");
+                }
+                else
+                {
+                    IncorrecteInvoer = false;
+                    foreach(var registratie in _business.ZieRegistratiesHoofdDb(keuze))
+                    {
+                        registratie.RegistratieInformatie();
+                    }
+            }   
+                }
+            }
+            
+
+           
+        }
     }
-}
+
