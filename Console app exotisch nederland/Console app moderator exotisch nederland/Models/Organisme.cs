@@ -41,6 +41,36 @@ namespace Console_app_moderator_exotisch_nederland.Models
             NaamOrganisme = NieuweNaam; 
             return NaamOrganisme;
         }
+
+        public virtual string VeranderType(string NieuweType)
+        {
+            DierOfPlant = NieuweType;
+            return DierOfPlant;
+        }
+
+        public virtual string VeranderSoort(string NieuweSoort)
+        {
+            Type = NieuweSoort;
+            return Type;
+        }
+
+        public virtual string VeranderOorsprong(string NieuweOorsprong)
+        {
+            Oorsprong = NieuweOorsprong;
+            return Oorsprong;
+        }
+
+        public virtual string VeranderAfkomst(string NieuweAfkomst)
+        {
+            Afkomst = NieuweAfkomst;
+            return Afkomst;
+        }
+
+        public virtual string VeranderBeschrijving(string NieuweBeschrijving)
+        {
+            Beschrijving = NieuweBeschrijving;
+            return Beschrijving;
+        }
     }
     
 

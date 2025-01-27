@@ -24,32 +24,10 @@ namespace Console_app_moderator_exotisch_nederland.Presentation
             }
             else
             {
-                string keuze;
-                bool Loop = false;
-                while (!Loop){
-                    Console.WriteLine("Wilt u de registraties bekijken of aanpassen?");
-                    Console.WriteLine("Kies \"bekijken\" of \"aanpassen\"");
-                    keuze = Console.ReadLine();
 
-                    switch (keuze.ToLower())
-                    {
-                        case "bekijken":
-                            Loop = true;
-                            NieuweRegistratiesBekijken();
-                            break;
-                        case "aanpassen":
-                            Loop = true;
-                            RegistratiesAanpassen();
-                            break;
-                        default:
-                            Console.WriteLine("Ongeldig antwoord");
-                            break;
-                            
-
-
-                    }
+                NieuweRegistratiesBekijken();
                     
-                }
+                
             }
                 
         }

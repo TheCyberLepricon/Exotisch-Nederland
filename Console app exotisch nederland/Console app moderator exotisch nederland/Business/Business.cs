@@ -44,7 +44,7 @@ namespace Console_app_moderator_exotisch_nederland.Business
                 registratie.InformatieOrganisme();
                 bool IncorrecteInvoer = true;
                 Console.WriteLine("Welke stukje data wil u aanpassen, voer hiervan het getal in:");
-                Console.WriteLine("1.\"Naam\" \n2.\"Type\" \n3.\"Oorsprong\" \n4.\"Afkomst\" \n5.\"Beschrijving\" \n6. Geen");
+                Console.WriteLine("1.\"Naam\" \n2.\"Type\" \n3. \"Soort\" \n4.\"Oorsprong\" \n5.\"Afkomst\" \n6.\"Beschrijving\" \n7. Geen");
                 while (IncorrecteInvoer)
                 if (!int.TryParse(Console.ReadLine(), out int keuze))
                 {
@@ -59,27 +59,51 @@ namespace Console_app_moderator_exotisch_nederland.Business
                                 Console.WriteLine($"Momentele naam van registratie: {registratie.NaamOrganisme}");
                                 Console.WriteLine("Voer de nieuwe naam in de van de registratie:");
                                 string NieuweNaam = Console.ReadLine();
-                                registratie.HernoemOrganisme(NieuweNaam); // this is the lil bitch
+                                registratie.HernoemOrganisme(NieuweNaam);
                                 Console.WriteLine($"Nieuwe naam van registratie: {registratie.NaamOrganisme}");
 
                             break;
                         case 2:
                                 IncorrecteInvoer = false;
-                                Console.WriteLine("Work in progress");
+                                Console.WriteLine($"Momentele type van registratie: {registratie.DierOfPlant}");
+                                Console.WriteLine("Voer de nieuwe type in van de registratie:");
+                                string NieuweType = Console.ReadLine();
+                                registratie.VeranderType(NieuweType);
+                                Console.WriteLine($"De nieuwe type van de registratie: {registratie.DierOfPlant}");
                             break;
                         case 3:
                                 IncorrecteInvoer = false;
-                                Console.WriteLine("Work in progress");
-                            break;
+                                Console.WriteLine($"Momentele type van registratie: {registratie.Type}");
+                                Console.WriteLine("Voer de nieuwe type in van de registratie:");
+                                string NieuweSoort = Console.ReadLine();
+                                registratie.VeranderSoort(NieuweSoort);
+                                Console.WriteLine($"De nieuwe type van de registratie: {registratie.Type}");
+                           break;
                         case 4:
-                            IncorrecteInvoer = false;
-                            Console.WriteLine("Work in progress");
-                            break;
+                                IncorrecteInvoer = false;
+                                Console.WriteLine($"Momentele type van registratie: {registratie.Oorsprong}");
+                                Console.WriteLine("Voer de nieuwe type in van de registratie:");
+                                string NieuweOorsprong = Console.ReadLine();
+                                registratie.VeranderOorsprong(NieuweOorsprong);
+                                Console.WriteLine($"De nieuwe type van de registratie: {registratie.Oorsprong}");
+                           break;
                         case 5:
-                                IncorrecteInvoer= false;
-                                Console.WriteLine("Work in progress");
-                            break;
+                            IncorrecteInvoer = false;
+                                Console.WriteLine($"Momentele type van registratie: {registratie.Afkomst}");
+                                Console.WriteLine("Voer de nieuwe type in van de registratie:");
+                                string NieuweAfkomst = Console.ReadLine();
+                                registratie.VeranderAfkomst(NieuweAfkomst);
+                                Console.WriteLine($"De nieuwe type van de registratie: {registratie.Afkomst}");
+                                break;
                         case 6:
+                                IncorrecteInvoer= false;
+                                Console.WriteLine($"Momentele type van registratie: {registratie.Beschrijving}");
+                                Console.WriteLine("Voer de nieuwe type in van de registratie:");
+                                string NieuweBeschrijving = Console.ReadLine();
+                                registratie.VeranderBeschrijving(NieuweBeschrijving);
+                                Console.WriteLine($"De nieuwe type van de registratie: {registratie.Beschrijving}");
+                                break;
+                        case 7:
                                 IncorrecteInvoer = false;
                                 Console.WriteLine("Volgende registratie wordt weergegeven");
                             break;

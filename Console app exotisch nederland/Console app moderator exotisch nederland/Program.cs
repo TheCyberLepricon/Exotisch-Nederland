@@ -12,9 +12,10 @@ namespace Console_app_moderator_exotisch_nederland
             while (!klaar)
             {
                 Console.WriteLine("Kies een optie:");
-                Console.WriteLine("1. Nieuwe Registraties bekijken" +
-                    "\n2. Hoofddatabase inzien" +
-                    "\n3. Afsluiten");
+                Console.WriteLine("1. Nieuwe registraties bekijken" +
+                    "\n2. Nieuwe registraties aanpassen" +
+                    "\n3. Hoofddatabase inzien" +
+                    "\n4. Afsluiten");
 
                 if(!int.TryParse(Console.ReadLine(), out keuze) && keuze > 3 && keuze < 1) { Console.WriteLine("Voert u a.u.b een geldig getal in");}
 
@@ -24,11 +25,14 @@ namespace Console_app_moderator_exotisch_nederland
                         _presentatie.TussenDatabaseInzien();
                     break;
                     case 2:
-                        Console.WriteLine("hoi");
+                        _presentatie.RegistratiesAanpassen();
                     break;
                     case 3:
-                        klaar = true;
+                        Console.WriteLine("Functie moet nog komen");
                     break;
+                    case 4:
+                        klaar = true;
+                        break;
 
                 }
             }
