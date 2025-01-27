@@ -186,6 +186,7 @@ namespace Console_app_exotisch_nederland.Presentatie
         }
         public string OrganismesBekijken(string organismesBekijken)
         {
+            int gevondenOrganismes = 0;
             LocatieKrijgen();
             if (organismesBekijken == "1" | organismesBekijken.ToLower() == "dier")
             {
@@ -201,6 +202,7 @@ namespace Console_app_exotisch_nederland.Presentatie
                     if (totaalOrganisme.DierOfPlant == "Dier")
                     {
                         if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5){
+                            gevondenOrganismes++;
                             Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
                             $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
                             $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
@@ -208,6 +210,10 @@ namespace Console_app_exotisch_nederland.Presentatie
                         }
 
                     }
+                }
+                if (gevondenOrganismes == 0)
+                {
+                    Console.WriteLine($"Er is geen geregistreerd dier in de buurt!");
                 }
                 return "";
             }
@@ -225,12 +231,17 @@ namespace Console_app_exotisch_nederland.Presentatie
                     {
                         if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5)
                         {
+                            gevondenOrganismes++;
                             Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
                             $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
                             $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
                             Console.WriteLine($"De plant is: {CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude)}km van u vandaan");
                         }
                     }
+                }
+                if (gevondenOrganismes == 0)
+                {
+                    Console.WriteLine($"Er is geen geregistreerde plant in de buurt!");
                 }
                 return "";
             }
@@ -246,11 +257,46 @@ namespace Console_app_exotisch_nederland.Presentatie
                     DateTime datumTijdNieuwe = new DateTime(Jaar, Maand, Dag, Uur, 0, 0);
                     if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5)
                     {
+                        gevondenOrganismes++;
                         Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
                         $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
                         $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
                         Console.WriteLine($"De plant is: {CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude)}km van u vandaan");
                     }
+                }
+                if (gevondenOrganismes == 0)
+                {
+                    Console.WriteLine($"Er is geen registratie in de buurt!");
+                }
+                return "";
+            }
+            else if (organismesBekijken == "4" | organismesBekijken.ToLower() == "specifieke soort")
+            {
+                Console.WriteLine("Welk organisme zou u willen zien?");
+                string specifiekeSoort = Console.ReadLine();
+                foreach (Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
+                {
+                    string[] opgesplitsteDatumTijd = totaalOrganisme.DatumTijd.Split("-");
+                    int Dag = int.Parse(opgesplitsteDatumTijd[0]);
+                    int Maand = int.Parse(opgesplitsteDatumTijd[1]);
+                    int Jaar = int.Parse(opgesplitsteDatumTijd[2]);
+                    int Uur = int.Parse(opgesplitsteDatumTijd[3]);
+                    DateTime datumTijdNieuwe = new DateTime(Jaar, Maand, Dag, Uur, 0, 0);
+                    if (totaalOrganisme.NaamOrganisme.ToLower() == specifiekeSoort.ToLower())
+                    {
+                        if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5)
+                        {
+                            gevondenOrganismes++;
+                            Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
+                            $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
+                            $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
+                            Console.WriteLine($"Het organisme is: {CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude)}km van u vandaan");
+                        }
+                    }
+                }
+                if(gevondenOrganismes == 0)
+                {
+                    Console.WriteLine($"Er is geen {specifiekeSoort} in de buurt!");
                 }
                 return "";
             }

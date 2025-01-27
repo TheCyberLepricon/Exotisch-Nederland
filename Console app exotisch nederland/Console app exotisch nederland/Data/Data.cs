@@ -9,8 +9,8 @@ namespace Console_app_exotisch_nederland.Data
 {
     public class DataProgram
     {
-        private readonly string _connectionString = @"Data Source=""C:\Users\kanem\OneDrive - Zuyd Hogeschool\Casus\Programmeren\Database\Tussendatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
-        private readonly string _hoofdConnectionString = @"Data Source=""C:\Users\Gebruiker\Downloads\Hoofddatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
+        private readonly string _connectionString = @"Data Source=""C:\Users\Gebruiker\Downloads\Tussendatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
+        private readonly string _hoofdConnectionString = @"Data Source=""C:\Users\Gebruiker\Downloads\Hoofddatabase (2).db"";";//Verander dit naar de locatie van de database op jouw computer
         public void OrganismeSoortRepository()
         {
             InitializeDatabase();
@@ -81,17 +81,13 @@ namespace Console_app_exotisch_nederland.Data
             W.Aantal_registraties,
             W.Soort AS SoortNaam,
             R.DatumTijd,
-            L.Lengtegraad,
-            L.Breedtegraad,
-            B.Beschrijving AS BeschrijvingTekst
+            R.Lengtegraad,
+            R.Breedtegraad,
+            R.Beschrijving AS BeschrijvingTekst
             FROM 
             Waarnemingen W
             JOIN 
             Registraties R ON W.Waarneming_id = R.Waarneming_id
-            JOIN 
-            Locaties L ON R.Locatie_id = L.Locatie_id
-            JOIN 
-            Beschrijvingen B ON R.Beschrijving_id = B.Beschrijving_id;
             ";
             using var command = new SqliteCommand(query, connection);   
 

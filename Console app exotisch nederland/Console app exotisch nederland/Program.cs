@@ -192,7 +192,7 @@ namespace Console_app_exotisch_nederland
                     }
                     Console.WriteLine("\n\nWat wilt u zien? (Binnen 5km)");
                     Console.WriteLine("Kies een van de onderstaande opties:");
-                    Console.WriteLine("\t1. Dier\n\t2. Plant\n\t3. Alles");
+                    Console.WriteLine("\t1. Dier\n\t2. Plant\n\t3. Alles\n\t4. Specifieke soort");
                     _presentatie.OrganismesBekijken(Console.ReadLine());
                     
 

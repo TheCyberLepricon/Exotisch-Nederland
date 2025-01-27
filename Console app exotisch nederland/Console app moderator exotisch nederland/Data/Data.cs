@@ -205,6 +205,17 @@ namespace Console_app_moderator_exotisch_nederland.Data
 
         public void WaarnemingToevoegen(TussenDbOrganisme registratie)
         {
+            using var connection = new SqliteConnection(_HoofdDatabaseConnectie);
+            connection.Open();
+            string query = @"Insert into Waarnemingen(NaamOrganisme, DierOfPlant, Soort, Oorsprong, Afkomst, aantal_registraties) Values(@NaamOrganisme, @DierOfPlant, @Soort, @Oorsprong, @Afkomst, @AantalRegistraties)";
+            using var command = new SqliteCommand(query, connection);
+            command.Parameters.AddWithValue("@NaamOrganisme", registratie.NaamOrganisme);
+            command.Parameters.AddWithValue("@DierOfPlant", registratie.DierOfPlant);
+            command.Parameters.AddWithValue("@Soort", registratie.Type);
+            command.Parameters.AddWithValue("@Oorsprong", registratie.Oorsprong);
+            command.Parameters.AddWithValue("@Afkomst", registratie.Afkomst);
+            command.Parameters.AddWithValue("@AantalRegistraties", 1);
+            command.ExecuteNonQuery();
 
         }
         

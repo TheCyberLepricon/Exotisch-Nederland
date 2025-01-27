@@ -175,7 +175,6 @@ namespace Console_app_moderator_exotisch_nederland.Business
                             
                             foreach(var waarneming in _data.HaalWaarnemingenOp())
                             {
-                                int WaarnemingenMetDezelfdeNaam = 0;
                                 if (waarneming.WaarnemingNaam == registratie.NaamOrganisme)
                                 {
                                     Console.WriteLine("Organisme staat al geregistreerd");
@@ -187,6 +186,7 @@ namespace Console_app_moderator_exotisch_nederland.Business
                                     Console.WriteLine("Registratie is nog niet bekend binnen de database");
                                     Console.WriteLine("Waarneming en registratie informatie wordt toegevoegd aan database");
                                     _data.WaarnemingToevoegen(registratie);
+                                    _data.TussenRegistratieToevoegenAanHoofdDatabase(registratie, waarneming);
                                 }
                                 
 
