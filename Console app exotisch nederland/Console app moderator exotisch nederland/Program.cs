@@ -16,7 +16,8 @@ namespace Console_app_moderator_exotisch_nederland
                     "\n2. Nieuwe registraties aanpassen" +
                     "\n3. Waarnemingen inzien" +
                     "\n4. Registraties van waarnemingen inzien" +
-                    "\n5. Afsluiten");
+                    "\n5. Registratie toevoegen aan hoofddatabase" +
+                    "\n6. Afsluiten");
 
                 if(!int.TryParse(Console.ReadLine(), out keuze) && keuze > 3 && keuze < 1) { Console.WriteLine("Voert u a.u.b een geldig getal in");}
 
@@ -35,6 +36,9 @@ namespace Console_app_moderator_exotisch_nederland
                         _presentatie.HoofdDatabaseRegistratiesInzien();
                         break;
                     case 5:
+                        _presentatie.RegistratieToevoegenAanHoofdDb();
+                        break;
+                    case 6:
                         klaar = true;
                         break;
 

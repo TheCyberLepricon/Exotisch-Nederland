@@ -154,5 +154,59 @@ namespace Console_app_moderator_exotisch_nederland.Business
 
             
         }
+
+        public void TussenRegistratiebekijken()
+        {
+            var tussenregistraties = _data.TussenDatabaseOrganismenLijst();
+            foreach ( var registratie in tussenregistraties)
+            {
+                registratie.InformatieOrganisme();
+
+                Console.WriteLine("Wil u deze registratie toevoegen aan de hoofddatabase? j/n");
+                string keuze = Console.ReadLine();
+                bool IncorrecteInvoer = true;
+                while (IncorrecteInvoer)
+                {
+                    if( keuze.ToLower() == "j" || keuze.ToLower() == "n")
+                    {
+                        IncorrecteInvoer = false;
+                        if(keuze.ToLower() == "j")
+                        {
+                            
+                            foreach(var waarneming in _data.HaalWaarnemingenOp())
+                            {
+                                int WaarnemingenMetDezelfdeNaam = 0;
+                                if (waarneming.WaarnemingNaam == registratie.NaamOrganisme)
+                                {
+                                    Console.WriteLine("Organisme staat al geregistreerd");
+                                    Console.WriteLine("Registratie informatie wordt toegevoegd");
+                                    _data.TussenRegistratieToevoegenAanHoofdDatabase(registratie, waarneming);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Registratie is nog niet bekend binnen de database");
+                                    Console.WriteLine("Waarneming en registratie informatie wordt toegevoegd aan database");
+                                    _data.WaarnemingToevoegen(registratie);
+                                }
+                                
+
+                            }
+                            
+                            
+                            
+                            
+                        }
+                        else
+                        {
+                            Console.WriteLine("Volgende registratie wordt weergegeven \n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Voer a.u.b. \"j\" of \"n\" in");
+                    }
+                }
+            }
+        }
     }
 }

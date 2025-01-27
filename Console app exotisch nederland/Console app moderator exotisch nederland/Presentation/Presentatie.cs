@@ -84,9 +84,12 @@ namespace Console_app_moderator_exotisch_nederland.Presentation
                     }
             }   
                 }
-            }
+        }
             
-
+        public void RegistratieToevoegenAanHoofdDb()
+        {
+           _business.TussenRegistratiebekijken();
+        }
            
         }
     }

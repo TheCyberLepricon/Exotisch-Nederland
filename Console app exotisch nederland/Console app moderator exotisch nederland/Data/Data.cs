@@ -186,7 +186,27 @@ namespace Console_app_moderator_exotisch_nederland.Data
             return _registratieLijst;
         }
 
+        public void TussenRegistratieToevoegenAanHoofdDatabase(TussenDbOrganisme registratie, Waarneming waarneming)
+        {
+            using var connection = new SqliteConnection(_HoofdDatabaseConnectie);
+            connection.Open();
 
+            string query = @"Insert into Registraties(Waarneming_id, DatumTijd, Breedtegraad, Lengtegraad, Beschrijving) Values(@WaarnemingId, @DatumTijd, @Breedtegraad, @Lengtegraad, @Beschrijving)";
+
+            using var command = new SqliteCommand(query, connection);
+            command.Parameters.AddWithValue("@WaarnemingId", waarneming.WaarnemingId);
+            command.Parameters.AddWithValue("@DatumTijd", registratie.DatumTijd);
+            command.Parameters.AddWithValue("@Breedtegraad", registratie.Longitude);
+            command.Parameters.AddWithValue("@Lengtegraad", registratie.Latitude);
+            command.Parameters.AddWithValue("@Beschrijving", registratie.Beschrijving);
+
+            command.ExecuteNonQuery();
+        }
+
+        public void WaarnemingToevoegen(TussenDbOrganisme registratie)
+        {
+
+        }
         
         
 
