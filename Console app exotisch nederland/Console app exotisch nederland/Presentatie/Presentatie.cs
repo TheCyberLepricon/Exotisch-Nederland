@@ -188,6 +188,7 @@ namespace Console_app_exotisch_nederland.Presentatie
         {
             int gevondenOrganismes = 0;
             LocatieKrijgen();
+            Thread.Sleep(1000);
             if (organismesBekijken == "1" | organismesBekijken.ToLower() == "dier")
             {
                 foreach(Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
