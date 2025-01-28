@@ -44,7 +44,7 @@ namespace Console_app_moderator_exotisch_nederland
 
                 }
             }
-            Console.ReadKey();
+            
         }
     }
 }

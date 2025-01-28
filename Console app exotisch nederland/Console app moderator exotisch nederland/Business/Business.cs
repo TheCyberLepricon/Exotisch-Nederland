@@ -172,29 +172,42 @@ namespace Console_app_moderator_exotisch_nederland.Business
                         IncorrecteInvoer = false;
                         if(keuze.ToLower() == "j")
                         {
-                            
+                            int n = 0;
+                            Waarneming gevondenWaarneming = null;
                             foreach(var waarneming in _data.HaalWaarnemingenOp())
                             {
+                                gevondenWaarneming = waarneming;
+
                                 if (waarneming.WaarnemingNaam == registratie.NaamOrganisme)
                                 {
-                                    Console.WriteLine("Organisme staat al geregistreerd");
-                                    Console.WriteLine("Registratie informatie wordt toegevoegd");
-                                    _data.TussenRegistratieToevoegenAanHoofdDatabase(registratie, waarneming);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Registratie is nog niet bekend binnen de database");
-                                    Console.WriteLine("Waarneming en registratie informatie wordt toegevoegd aan database");
-                                    _data.WaarnemingToevoegen(registratie);
-                                    _data.TussenRegistratieToevoegenAanHoofdDatabase(registratie, waarneming);
+                                    n++;
                                 }
                                 
 
+
+                                
                             }
-                            
-                            
-                            
-                            
+                            if (n == 1)
+                            {
+                                Console.WriteLine("Organisme staat al geregistreerd");
+                                Console.WriteLine("Registratie informatie wordt toegevoegd");
+                                _data.TussenRegistratieToevoegenAanHoofdDatabase(registratie, gevondenWaarneming);
+                                _data.RegistratieVerwijderenUitTussenDb(registratie);
+                                
+                            }
+                            else
+                            {
+                                Console.WriteLine("Registratie is nog niet bekend binnen de database");
+                                Console.WriteLine("Waarneming en registratie informatie wordt toegevoegd aan database");
+                                _data.WaarnemingToevoegen(registratie);
+                                _data.TussenRegistratieToevoegenAanHoofdDatabase(registratie, gevondenWaarneming);
+                                _data.RegistratieVerwijderenUitTussenDb(registratie);
+                                
+                            }
+
+
+
+
                         }
                         else
                         {

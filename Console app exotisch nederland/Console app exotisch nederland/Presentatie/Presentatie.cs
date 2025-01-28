@@ -204,9 +204,9 @@ namespace Console_app_exotisch_nederland.Presentatie
                     {
                         if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5){
                             gevondenOrganismes++;
-                            Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
-                            $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
-                            $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
+                            Console.WriteLine($"|Naam: {totaalOrganisme.NaamOrganisme}\n|Type: {totaalOrganisme.Type}" +
+                            $"|\nOorpsrong: {totaalOrganisme.Oorsprong}|\nAfkomst: {totaalOrganisme.Afkomst}" +
+                            $"|\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}|\nUur: {datumTijdNieuwe.ToString("HH")}|\nBeschrijving: {totaalOrganisme.Beschrijving}");
                             Console.WriteLine($"Het dier is: {CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude)}km van u vandaan");
                         }
 
@@ -233,9 +233,9 @@ namespace Console_app_exotisch_nederland.Presentatie
                         if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5)
                         {
                             gevondenOrganismes++;
-                            Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
-                            $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
-                            $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
+                            Console.WriteLine($"|Naam: {totaalOrganisme.NaamOrganisme}|\nType: {totaalOrganisme.Type}" +
+                            $"|\nOorpsrong: {totaalOrganisme.Oorsprong}|\nAfkomst: {totaalOrganisme.Afkomst}" +
+                            $"|\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}|\nUur: {datumTijdNieuwe.ToString("HH")}|\nBeschrijving: {totaalOrganisme.Beschrijving}");
                             Console.WriteLine($"De plant is: {CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude)}km van u vandaan");
                         }
                     }
@@ -259,9 +259,9 @@ namespace Console_app_exotisch_nederland.Presentatie
                     if (CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude) < 5)
                     {
                         gevondenOrganismes++;
-                        Console.WriteLine($"Naam: {totaalOrganisme.NaamOrganisme}\nType: {totaalOrganisme.Type}" +
-                        $"\nOorpsrong: {totaalOrganisme.Oorsprong}\nAfkomst: {totaalOrganisme.Afkomst}" +
-                        $"\nDatum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\nUur: {datumTijdNieuwe.ToString("HH")}\nBeschrijving: {totaalOrganisme.Beschrijving}");
+                        Console.WriteLine($"|Naam: {totaalOrganisme.NaamOrganisme}\n|Type: {totaalOrganisme.Type}" +
+                        $"\n|Oorpsrong: {totaalOrganisme.Oorsprong}\n|Afkomst: {totaalOrganisme.Afkomst}" +
+                        $"\n|Datum: {datumTijdNieuwe.ToString("dd-MM-yyyy")}\n|Uur: {datumTijdNieuwe.ToString("HH")}\n|Beschrijving: {totaalOrganisme.Beschrijving}");
                         Console.WriteLine($"De plant is: {CalculateDistance(locatieData[0], totaalOrganisme.Latitude, locatieData[1], totaalOrganisme.Longitude)}km van u vandaan");
                     }
                 }
