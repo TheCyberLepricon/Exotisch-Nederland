@@ -80,7 +80,7 @@ namespace Console_app_exotisch_nederland.Presentatie
             Console.WriteLine("Kies een van de volgende mogelijkheden van plantsoorten:");
             Console.WriteLine("\t1. Varenachtigen\n\t2. Mosachtigen");
             Console.WriteLine("\t3. Bloemplanten\n\t4. Naaktzadige");
-            Console.WriteLine("\t5. Onbekend/Geen idee");
+            Console.WriteLine("\t5. Boom\n\t6. Onbekend/Geen idee");
             string typePlantKeuze = _business.PlantType(Console.ReadLine());
             if(typePlantKeuze == "GGA")
             {

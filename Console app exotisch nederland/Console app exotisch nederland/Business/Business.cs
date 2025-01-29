@@ -52,7 +52,12 @@ namespace Console_app_exotisch_nederland.Business
                 Console.WriteLine("Naaktzadige Toegevoegd!");
                 return "Naaktzadige";
             }
-            else if (type.ToLower() == "onbekend" | type == "5" | type.ToLower() == "geen idee" | type.ToLower() == "onbekend/geen idee")
+            else if(type.ToLower() == "Boom" | type == "5")
+            {
+                Console.WriteLine("Boom Toegevoegd");
+                return "Boom";
+            }
+            else if (type.ToLower() == "onbekend" | type == "6" | type.ToLower() == "geen idee" | type.ToLower() == "onbekend/geen idee")
             {
                 Console.WriteLine("Onbekend! Toegevoegd!");
                 return "Onbekend";

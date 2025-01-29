@@ -41,7 +41,7 @@ namespace Console_app_moderator_exotisch_nederland.Business
             foreach (var waarneming in _data.HaalWaarnemingenOp())
             {
                 waarneming.InformatieWaarneming();
-                Console.WriteLine("\n Klik op enter om de volgende registratie te bekijken \n");
+                Console.WriteLine("\n Klik op enter om de volgende waarneming te bekijken \n");
                 Console.ReadKey();
             }
         }
@@ -157,13 +157,8 @@ namespace Console_app_moderator_exotisch_nederland.Business
 
         public void TussenRegistratieVerwijderenOfToevoegen()
         {
-            int AantalTussenRegistraties = AantalWaarnemingen();
-            if (AantalTussenRegistraties == 0)
-            {
-                Console.WriteLine("Er zijn geen registraties in de tussendatabase");
-                Console.WriteLine("U wordt terug gestuurd naar het hoofdmenu");
-            }
-            else {
+            
+            
                 var tussenregistraties = _data.TussenDatabaseOrganismenLijst();
                 foreach ( var registratie in tussenregistraties)
                 {
@@ -253,6 +248,5 @@ namespace Console_app_moderator_exotisch_nederland.Business
                     }
                 }
             }
-        }
     }
 }

@@ -47,7 +47,8 @@ namespace Console_app_moderator_exotisch_nederland.Presentation
 
            if (AantalWaarnemingen == 0)
             {
-                Console.WriteLine("U wordt terug gestuurd naar het hoofdmenu");
+                Console.WriteLine("Er zijn geen waarnemingen in de database");
+                Console.WriteLine("U wordt terug gestuurd naar het hoofdmenu \n");
             }
             else
             {
@@ -62,28 +63,37 @@ namespace Console_app_moderator_exotisch_nederland.Presentation
 
         public void HoofdDatabaseRegistratiesInzien()
         {
-            Console.WriteLine("Van welke waarneming wil u de registraties inzien?");
-            Console.WriteLine("Voer het getal hiervan in");
-            foreach(var waarneming in _business.HaalWaarnemingenOp())
+            int AantalWaarnemingen = _business.AantalWaarnemingen();
+            if (AantalWaarnemingen == 0)
             {
-                Console.WriteLine($"{waarneming.WaarnemingId}: {waarneming.WaarnemingNaam}");
+                Console.WriteLine("Er zijn geen waarnemingen in de database");
+                Console.WriteLine("U wordt terug gestuurd naar het hoofdmenu\n");
             }
-            bool IncorrecteInvoer = true;
-            while( IncorrecteInvoer )
+            else
             {
-                if (!int.TryParse(Console.ReadLine(),out int keuze))
+                Console.WriteLine("Van welke waarneming wil u de registraties inzien?");
+                Console.WriteLine("Voer het getal hiervan in");
+                foreach (var waarneming in _business.HaalWaarnemingenOp())
                 {
-                    Console.WriteLine("Ongeldige invoer, voer a.u.b. de getal in van uw keuze");
+                    Console.WriteLine($"{waarneming.WaarnemingId}: {waarneming.WaarnemingNaam}");
                 }
-                else
+                bool IncorrecteInvoer = true;
+                while (IncorrecteInvoer)
                 {
-                    IncorrecteInvoer = false;
-                    foreach(var registratie in _business.ZieRegistratiesHoofdDb(keuze))
+                    if (!int.TryParse(Console.ReadLine(), out int keuze))
                     {
-                        registratie.RegistratieInformatie();
+                        Console.WriteLine("Ongeldige invoer, voer a.u.b. de getal in van uw keuze");
                     }
-            }   
+                    else
+                    {
+                        IncorrecteInvoer = false;
+                        foreach (var registratie in _business.ZieRegistratiesHoofdDb(keuze))
+                        {
+                            registratie.RegistratieInformatie();
+                        }
+                    }
                 }
+            }
         }
             
         public void RegistratieToevoegenAanHoofdDb()

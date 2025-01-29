@@ -9,8 +9,8 @@ namespace Console_app_exotisch_nederland.Data
 {
     public class DataProgram
     {
-        private readonly string _connectionString = @"Data Source=""C:\Users\kanem\OneDrive - Zuyd Hogeschool\Casus\Programmeren\Database\Tussendatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
-        private readonly string _hoofdConnectionString = @"Data Source=""C:\Users\kanem\OneDrive - Zuyd Hogeschool\Casus\Programmeren\Database\Hoofddatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
+        private readonly string _connectionString = @"Data Source=""C:\Users\kanem\source\repos\TheCyberLepricon\Exotisch-Nederland\Console app exotisch nederland\Database\Tussendatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
+        private readonly string _hoofdConnectionString = @"Data Source=""C:\Users\kanem\source\repos\TheCyberLepricon\Exotisch-Nederland\Console app exotisch nederland\Database\Hoofddatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
         public void OrganismeSoortRepository()
         {
             InitializeDatabase();
