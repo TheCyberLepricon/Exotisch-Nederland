@@ -87,8 +87,8 @@ namespace Console_app_exotisch_nederland.Business
         }
         public string PlantOorsprong(string plantOorsprong)
         {
-            if (plantOorsprong.ToLower() != "europa" | plantOorsprong.ToLower() != "afrika" | plantOorsprong.ToLower() != "azie" | plantOorsprong.ToLower() != "zuid amerika" |
-                plantOorsprong.ToLower() != "noord amerika" | plantOorsprong.ToLower() != "antartica" | plantOorsprong.ToLower() != "oceanie")
+            if (plantOorsprong.ToLower() == "europa" | plantOorsprong.ToLower() == "afrika" | plantOorsprong.ToLower() == "azie" | plantOorsprong.ToLower() == "zuid amerika" |
+                plantOorsprong.ToLower() == "noord amerika" | plantOorsprong.ToLower() == "antartica" | plantOorsprong.ToLower() == "oceanie")
             {
                 return plantOorsprong;
             }
@@ -244,8 +244,8 @@ namespace Console_app_exotisch_nederland.Business
         }
         public string DierOorsprong(string oorsprongDier)
         {
-            if (oorsprongDier.ToLower() != "europa" | oorsprongDier.ToLower() != "afrika" | oorsprongDier.ToLower() != "azie" | oorsprongDier.ToLower() != "zuid amerika" |
-                oorsprongDier.ToLower() != "noord amerika" | oorsprongDier.ToLower() != "antartica" | oorsprongDier.ToLower() != "oceanie")
+            if (oorsprongDier.ToLower() == "europa" | oorsprongDier.ToLower() == "afrika" | oorsprongDier.ToLower() == "azie" | oorsprongDier.ToLower() == "zuid amerika" |
+                oorsprongDier.ToLower() == "noord amerika" | oorsprongDier.ToLower() == "antartica" | oorsprongDier.ToLower() == "oceanie")
             {
                 return oorsprongDier;
             }
