@@ -20,22 +20,29 @@ namespace Console_app_exotisch_nederland.Presentatie
             public double longitude { get; set; }
             public int metro_code { get; set; }
         }
-        List<double> locatieData = new List<double>();
-        async void LocatieKrijgen()
+        List<double> LocatieKrijgen()
         {
-            using HttpClient client = new HttpClient();
-            string url = "https://freegeoip.app/json/";
+            List<double> locatieData = new List<double>();
+            async void Locatiekrijgen()
+            {
+                using HttpClient client = new HttpClient();
+                string url = "https://freegeoip.app/json/";
 
-            Console.WriteLine("Locatie opvragen...");
-            string response = await client.GetStringAsync(url);
+                Console.WriteLine("Locatie opvragen...");
+                string response = await client.GetStringAsync(url);
 
-            var locationData = JsonSerializer.Deserialize<LocationResponse>(response);
-            locatieData.Add(locationData.latitude);
-            locatieData.Add(locationData.longitude);
+                var locationData = JsonSerializer.Deserialize<LocationResponse>(response);
+                locatieData.Add(locationData.latitude);
+                locatieData.Add(locationData.longitude);
 
 
 
+            }
+            Locatiekrijgen();
+            Thread.Sleep(1000);
+            return locatieData;
         }
+
         static double DegreesToRadians(double degrees)
         {
             return degrees * Math.PI / 180;
@@ -187,7 +194,7 @@ namespace Console_app_exotisch_nederland.Presentatie
         public string OrganismesBekijken(string organismesBekijken)
         {
             int gevondenOrganismes = 0;
-            LocatieKrijgen();
+            List<double> locatieData = LocatieKrijgen();
             if (organismesBekijken == "1" | organismesBekijken.ToLower() == "dier")
             {
                 foreach(Organisme.TotaalOrganismes totaalOrganisme in _business.AlleOrganismes())
