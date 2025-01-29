@@ -13,8 +13,8 @@ namespace Console_app_moderator_exotisch_nederland.Data
     {
        
 
-        private readonly string _TussenDatabaseConnectie = @"Data Source=""C:\Users\kanem\source\repos\TheCyberLepricon\Exotisch-Nederland\Console app exotisch nederland\Database\Tussendatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
-        private readonly string _HoofdDatabaseConnectie = @"Data Source=""C:\Users\kanem\source\repos\TheCyberLepricon\Exotisch-Nederland\Console app exotisch nederland\Database\Hoofddatabase.db"";";//Verander dit naar de locatie
+        private readonly string _TussenDatabaseConnectie = @"Data Source=""/home/Gambling_Inc/database/tussendatabase.db"";";//Verander dit naar de locatie van de database op jouw computer
+        private readonly string _HoofdDatabaseConnectie = @"Data Source=""/home/Gambling_Inc/database/tussendatabase.db"";";//Verander dit naar de locatie
         
         private void VerbindMetTussenDB()
         {
