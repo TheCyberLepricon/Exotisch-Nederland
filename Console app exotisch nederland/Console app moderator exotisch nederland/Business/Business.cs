@@ -155,68 +155,101 @@ namespace Console_app_moderator_exotisch_nederland.Business
             
         }
 
-        public void TussenRegistratiebekijken()
+        public void TussenRegistratieVerwijderenOfToevoegen()
         {
-            var tussenregistraties = _data.TussenDatabaseOrganismenLijst();
-            foreach ( var registratie in tussenregistraties)
+            int AantalTussenRegistraties = AantalWaarnemingen();
+            if (AantalTussenRegistraties == 0)
             {
-                registratie.InformatieOrganisme();
-
-                Console.WriteLine("Wil u deze registratie toevoegen aan de hoofddatabase? j/n");
-                string keuze = Console.ReadLine();
-                bool IncorrecteInvoer = true;
-                while (IncorrecteInvoer)
+                Console.WriteLine("Er zijn geen registraties in de tussendatabase");
+                Console.WriteLine("U wordt terug gestuurd naar het hoofdmenu");
+            }
+            else {
+                var tussenregistraties = _data.TussenDatabaseOrganismenLijst();
+                foreach ( var registratie in tussenregistraties)
                 {
-                    if( keuze.ToLower() == "j" || keuze.ToLower() == "n")
-                    {
-                        IncorrecteInvoer = false;
-                        if(keuze.ToLower() == "j")
-                        {
-                            int n = 0;
-                            Waarneming gevondenWaarneming = null;
-                            foreach(var waarneming in _data.HaalWaarnemingenOp())
-                            {
-                                gevondenWaarneming = waarneming;
+                    registratie.InformatieOrganisme();
 
-                                if (waarneming.WaarnemingNaam == registratie.NaamOrganisme)
+                    Console.WriteLine("Wil u deze registratie toevoegen aan de hoofddatabase? j/n");
+                    string keuze = Console.ReadLine();
+                    bool IncorrecteInvoer = true;
+                    while (IncorrecteInvoer)
+                    {
+                        switch (keuze.ToLower())
+                        {
+
+
+                            case "j":
+                                IncorrecteInvoer = false;
+                                int n = 0;
+                                Waarneming gevondenWaarneming = null;
+                                foreach (var waarneming in _data.HaalWaarnemingenOp())
                                 {
-                                    n++;
+                                    gevondenWaarneming = waarneming;
+
+                                    if (waarneming.WaarnemingNaam == registratie.NaamOrganisme)
+                                    {
+                                        n++;
+                                    }
+
+
+
+
                                 }
-                                
+                                if (n == 1)
+                                {
+                                    Console.WriteLine("Organisme staat al geregistreerd");
+                                    Console.WriteLine("Registratie informatie wordt toegevoegd");
+                                    _data.TussenRegistratieToevoegenAanHoofdDatabase(registratie, gevondenWaarneming);
+                                    _data.RegistratieVerwijderenUitTussenDb(registratie);
 
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Registratie is nog niet bekend binnen de database");
+                                    Console.WriteLine("Waarneming en registratie informatie wordt toegevoegd aan database");
+                                    _data.WaarnemingToevoegen(registratie);
+                                    _data.TussenRegistratieToevoegenAanHoofdDatabase(registratie, gevondenWaarneming);
+                                    _data.RegistratieVerwijderenUitTussenDb(registratie);
 
-                                
-                            }
-                            if (n == 1)
-                            {
-                                Console.WriteLine("Organisme staat al geregistreerd");
-                                Console.WriteLine("Registratie informatie wordt toegevoegd");
-                                _data.TussenRegistratieToevoegenAanHoofdDatabase(registratie, gevondenWaarneming);
-                                _data.RegistratieVerwijderenUitTussenDb(registratie);
-                                
-                            }
-                            else
-                            {
-                                Console.WriteLine("Registratie is nog niet bekend binnen de database");
-                                Console.WriteLine("Waarneming en registratie informatie wordt toegevoegd aan database");
-                                _data.WaarnemingToevoegen(registratie);
-                                _data.TussenRegistratieToevoegenAanHoofdDatabase(registratie, gevondenWaarneming);
-                                _data.RegistratieVerwijderenUitTussenDb(registratie);
-                                
-                            }
+                                }
+                                break;
 
 
 
 
+
+                            case "n":
+                                IncorrecteInvoer = false;
+
+                                Console.WriteLine("Wil u deze registratie verwijderen uit de tussendatabase? j/n");
+                                string Besluit = Console.ReadLine();
+                                bool VerkeerdeInput = true;
+                                while (VerkeerdeInput)
+                                {
+                                    switch (Besluit.ToLower())
+                                    {
+                                        case "j":
+                                            VerkeerdeInput = false;
+                                            _data.RegistratieVerwijderenUitTussenDb(registratie);
+                                            Console.WriteLine("Registratie is verwijderd uit tussendatabase");
+                                            break;
+                                        case "n":
+                                            VerkeerdeInput = false;
+                                            Console.WriteLine("Volgende registratie wordt weergegeven");
+                                            break;
+                                        default:
+                                            Console.WriteLine("Voer a.u.b");
+                                            break;
+                                    }
+                                }
+
+                                break;
+
+                            default:
+
+                                Console.WriteLine("Voer a.u.b. \"j\" of \"n\" in");
+                                break;
                         }
-                        else
-                        {
-                            Console.WriteLine("Volgende registratie wordt weergegeven \n");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Voer a.u.b. \"j\" of \"n\" in");
                     }
                 }
             }
